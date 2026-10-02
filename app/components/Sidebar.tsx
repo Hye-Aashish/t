@@ -63,7 +63,7 @@ const bottomItems = [
     icon: FaShieldAlt,
   },
   {
-    label: "Live Support",
+    label: "Live Support (1234567890)",
     icon: FaHeadphones,
   },
   {

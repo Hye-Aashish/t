@@ -58,8 +58,9 @@ const footerColumns: FooterColumn[] = [
       { label: "Help Center", external: true },
       { label: "Fairness" },
       { label: "Responsible Gambling" },
+      { label: "Live Support (1234567890)" },
+      { label: "WhatsApp: 1234567890" },
       { label: "Gambling Helpline", external: true },
-      { label: "Live Support" },
       { label: "Self Exclusion" },
       { label: "Law Enforcement Request" },
     ],
@@ -243,6 +244,15 @@ export default function Footer() {
               className="hover:text-white underline"
             >
               support@nonstopbettingandcasino.com
+            </a>
+            {" "}or Support / WhatsApp:{" "}
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-white underline font-semibold text-white"
+            >
+              1234567890
             </a>
             .
           </p>
