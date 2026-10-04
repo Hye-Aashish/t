@@ -15,6 +15,7 @@ import {
   FaBars,
   FaChevronDown,
 } from "react-icons/fa";
+import { triggerDemoNotice } from "./DemoNoticeModal";
 
 interface SidebarProps {
   mobileOpen: boolean;
@@ -22,6 +23,7 @@ interface SidebarProps {
   collapsed?: boolean;
   onToggleCollapse?: () => void;
   onOpenChat?: () => void;
+  onOpenDemoNotice?: () => void;
 }
 
 const menuItems = [
@@ -79,6 +81,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   collapsed: propCollapsed,
   onToggleCollapse,
   onOpenChat,
+  onOpenDemoNotice,
 }) => {
   const [localCollapsed, setLocalCollapsed] = useState(true);
   const collapsed = propCollapsed !== undefined ? propCollapsed : localCollapsed;
@@ -93,8 +96,11 @@ const Sidebar: React.FC<SidebarProps> = ({
   const [languageOpen, setLanguageOpen] = useState(false);
 
   const openWhatsApp = () => {
-    const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "1234567890";
-    window.open(`https://wa.me/${whatsappNumber}`, "_blank");
+    if (onOpenDemoNotice) {
+      onOpenDemoNotice();
+    } else {
+      triggerDemoNotice();
+    }
     if (window.innerWidth < 768) {
       onClose();
     }
@@ -133,7 +139,8 @@ const Sidebar: React.FC<SidebarProps> = ({
           top-0
           z-50
           h-screen
-          bg-[#0d202c]
+          bg-[#0f212e]
+          border-r border-[#213743]
           text-white
           transition-all
           duration-300
@@ -175,6 +182,7 @@ const Sidebar: React.FC<SidebarProps> = ({
               type="button"
               onClick={handleToggle}
               className="
+                cursor-pointer
                 flex
                 h-10
                 w-10
@@ -182,56 +190,55 @@ const Sidebar: React.FC<SidebarProps> = ({
                 items-center
                 justify-center
                 rounded-lg
-                text-[#a8c5d8]
+                text-[#b1bad3]
                 transition
-                hover:bg-[#172f40]
+                hover:bg-[#1a2c38]
                 hover:text-white
-                
               "
               aria-label="Toggle sidebar"
             >
-              <FaBars size={20} />
+              <FaBars size={18} />
             </button>
 
             {/* Casino / Sports */}
             {!collapsed && (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 bg-[#0f212e] p-1 rounded-lg border border-[#213743]">
                 <button
                   type="button"
                   onClick={openWhatsApp}
                   className="
-                    rounded-lg
-                    bg-[#20394b]
-                    px-4
-                    py-2
-                    text-[14px]
+                    rounded-md
+                    bg-[#213743]
+                    px-3.5
+                    py-1.5
+                    text-xs
                     font-bold
                     text-white
                     transition
-                    hover:bg-[#29475b]
+                    hover:bg-[#2b4859]
                     cursor-pointer
                   "
                 >
-                  Casino
+                  🎰 Casino
                 </button>
 
                 <button
                   type="button"
                   onClick={openWhatsApp}
                   className="
-                    rounded-lg
+                    rounded-md
                     bg-[#1475e1]
-                    px-4
-                    py-2
-                    text-[14px]
+                    px-3.5
+                    py-1.5
+                    text-xs
                     font-bold
                     text-white
                     transition
-                    hover:bg-[#1a5ba4]
+                    hover:bg-[#1d82f5]
                     cursor-pointer
                   "
                 >
-                  Sports
+                  ⚽ Sports
                 </button>
               </div>
             )}
@@ -241,11 +248,12 @@ const Sidebar: React.FC<SidebarProps> = ({
           <div
             className={`
               rounded-xl
-              bg-[#193141]
+              bg-[#1a2c38]
+              border border-[#213743]
               py-3
               transition-all
               duration-300
-              ${collapsed ? "md:bg-transparent" : ""}
+              ${collapsed ? "md:bg-transparent md:border-transparent" : ""}
             `}
           >
             {/* MAIN MENU */}
@@ -259,19 +267,20 @@ const Sidebar: React.FC<SidebarProps> = ({
                       type="button"
                       onClick={() => handleMenuClick(item.label)}
                       className={`
+                        cursor-pointer
                         group
                         flex
                         w-full
                         items-center
                         rounded-lg
                         px-3
-                        py-2
+                        py-2.5
                         text-left
-                        text-[14px]
+                        text-xs sm:text-sm
                         font-semibold
-                        text-[#e2ebf1]
-                        transition
-                        hover:bg-[#223e50]
+                        text-[#b1bad3]
+                        transition-all
+                        hover:bg-[#213743]
                         hover:text-white
 
                         ${collapsed ? "md:justify-center md:px-0" : ""}
@@ -280,11 +289,11 @@ const Sidebar: React.FC<SidebarProps> = ({
                       <Icon
                         className="
                           shrink-0
-                          text-[#a8c5d8]
+                          text-[#b1bad3]
                           transition
                           group-hover:text-white
                         "
-                        size={18}
+                        size={17}
                       />
 
                       {!collapsed && (
@@ -295,9 +304,9 @@ const Sidebar: React.FC<SidebarProps> = ({
 
                           {item.dropdown && (
                             <FaChevronDown
-                              size={14}
+                              size={12}
                               className={`
-                                text-[#9fbacc]
+                                text-[#557086]
                                 transition-transform
                                 ${
                                   item.label === "Promotions" &&
@@ -316,11 +325,11 @@ const Sidebar: React.FC<SidebarProps> = ({
                     {item.label === "Promotions" &&
                       promotionOpen &&
                       !collapsed && (
-                        <div className="ml-12 mt-1 space-y-1">
+                        <div className="ml-10 mt-1 space-y-1">
                           <button
                             type="button"
                             onClick={openWhatsApp}
-                            className="block w-full rounded-md px-3 py-2 text-left text-sm text-[#a8c5d8] hover:bg-[#223e50] hover:text-white cursor-pointer"
+                            className="block w-full rounded-md px-3 py-1.5 text-left text-xs font-medium text-[#b1bad3] hover:bg-[#213743] hover:text-white cursor-pointer"
                           >
                             Latest Promotions
                           </button>
@@ -328,7 +337,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                           <button
                             type="button"
                             onClick={openWhatsApp}
-                            className="block w-full rounded-md px-3 py-2 text-left text-sm text-[#a8c5d8] hover:bg-[#223e50] hover:text-white cursor-pointer"
+                            className="block w-full rounded-md px-3 py-1.5 text-left text-xs font-medium text-[#b1bad3] hover:bg-[#213743] hover:text-white cursor-pointer"
                           >
                             Bonus Offers
                           </button>
@@ -341,7 +350,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 
             {/* ================= DIVIDER ================= */}
             {!collapsed && (
-              <div className="mx-3 my-4 border-t border-[#3b5667]" />
+              <div className="mx-3 my-3 border-t border-[#213743]" />
             )}
 
             {/* ================= BOTTOM MENU ================= */}
@@ -355,29 +364,30 @@ const Sidebar: React.FC<SidebarProps> = ({
                       type="button"
                       onClick={() => handleMenuClick(item.label)}
                       className={`
+                        cursor-pointer
                         group
                         flex
                         w-full
                         items-center
                         rounded-lg
                         px-3
-                        py-2
+                        py-2.5
                         text-left
-                        text-[14px]
+                        text-xs sm:text-sm
                         font-semibold
-                        text-[#e2ebf1]
-                        transition
-                        hover:bg-[#223e50]
+                        text-[#b1bad3]
+                        transition-all
+                        hover:bg-[#213743]
                         hover:text-white
 
                         ${collapsed ? "md:justify-center md:px-0" : ""}
                       `}
                     >
                       <Icon
-                        size={18}
+                        size={17}
                         className="
                           shrink-0
-                          text-[#a8c5d8]
+                          text-[#b1bad3]
                           transition
                           group-hover:text-white
                         "

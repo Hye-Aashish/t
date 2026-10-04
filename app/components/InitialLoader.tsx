@@ -14,13 +14,13 @@ export default function InitialLoader() {
       video.play().catch(() => {});
     }
 
-    // Clean preloader duration (~2.8s)
+    // Clean preloader duration (~2.5s)
     const timer = setTimeout(() => {
       setIsExiting(true);
       setTimeout(() => {
         setLoading(false);
-      }, 500);
-    }, 2800);
+      }, 700);
+    }, 2500);
 
     return () => {
       clearTimeout(timer);
@@ -31,18 +31,20 @@ export default function InitialLoader() {
 
   return (
     <div
-      className={`fixed inset-0 z-[99999] flex items-center justify-center bg-[#0b1720] transition-opacity duration-500 ease-out select-none ${
-        isExiting ? "opacity-0 pointer-events-none" : "opacity-100"
+      className={`fixed inset-0 z-[99999] flex flex-col items-center justify-center transition-all duration-700 ease-out select-none overflow-hidden ${
+        isExiting
+          ? "opacity-0 scale-105 pointer-events-none"
+          : "opacity-100 scale-100"
       }`}
+      style={{
+        background: "#0b1720",
+      }}
     >
-      {/* Soft warm ambient backlight */}
-      <div className="absolute w-52 h-52 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
-
-      {/* Video Loader seamlessly blended into background */}
-      <div className="relative flex items-center justify-center w-[200px] sm:w-[230px] md:w-[250px]">
+      {/* Centered Video Loader - Seamlessly merged without any bottom line */}
+      <div className="relative flex items-center justify-center w-[300px] sm:w-[420px] md:w-[480px] max-w-[92vw]">
         <video
           ref={videoRef}
-          src="/img/loader.mp4"
+          src="/img/loader3.mp4"
           autoPlay
           muted
           playsInline
@@ -50,9 +52,11 @@ export default function InitialLoader() {
           preload="auto"
           className="w-full h-auto object-contain pointer-events-none select-none mix-blend-screen"
           style={{
-            filter: "contrast(140%) brightness(80%)",
-            maskImage: "radial-gradient(circle at center, black 40%, transparent 75%)",
-            WebkitMaskImage: "radial-gradient(circle at center, black 40%, transparent 75%)",
+            filter: "contrast(175%) brightness(88%)",
+            maskImage:
+              "radial-gradient(ellipse 96% 92% at 50% 50%, black 82%, transparent 100%)",
+            WebkitMaskImage:
+              "radial-gradient(ellipse 96% 92% at 50% 50%, black 82%, transparent 100%)",
           }}
         />
       </div>

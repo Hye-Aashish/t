@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import Sidebar from "./components/Sidebar";
 import LoginModal from "./components/Loginmodal";
 import RegisterModal from "./components/RegisterModal";
+import DemoNoticeModal from "./components/DemoNoticeModal";
 import Navbar from "./components/Navbar";
 import GameSection from "./components/GameSection";
 import GameTabs from "./components/GameTabs";
@@ -18,13 +19,21 @@ export default function Home() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
 
-  // Login / Register Modal States
+  // Login / Register / Demo Modal States
   const [loginOpen, setLoginOpen] = useState(false);
   const [registerOpen, setRegisterOpen] = useState(false);
+  const [demoNoticeOpen, setDemoNoticeOpen] = useState(false);
 
   // Search & Chat Modal States
   const [searchOpen, setSearchOpen] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
+
+  // Global listener for opening demo notice from anywhere
+  useEffect(() => {
+    const handleOpenDemo = () => setDemoNoticeOpen(true);
+    window.addEventListener("open-demo-notice", handleOpenDemo);
+    return () => window.removeEventListener("open-demo-notice", handleOpenDemo);
+  }, []);
 
   // Open Login
   const openLogin = () => {
@@ -45,7 +54,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0f202b] pb-16 md:pb-0">
+    <div className="min-h-screen bg-[#0f212e] pb-16 md:pb-0">
 
       {/* =====================================================
           DESKTOP LAYOUT
@@ -62,6 +71,7 @@ export default function Home() {
             collapsed={sidebarCollapsed}
             onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
             onOpenChat={() => setChatOpen(true)}
+            onOpenDemoNotice={() => setDemoNoticeOpen(true)}
           />
         </aside>
 
@@ -71,7 +81,7 @@ export default function Home() {
           className={`
             min-h-screen
             w-full
-            bg-[#0f202b]
+            bg-[#0f212e]
             transition-all
             duration-300
             ease-in-out
@@ -82,6 +92,7 @@ export default function Home() {
           <Navbar
             onOpenLogin={openLogin}
             onOpenRegister={openRegister}
+            onToggleMobileMenu={() => setMobileOpen((prev) => !prev)}
           />
           {/* <RegionPopup/> */}
 
@@ -90,13 +101,14 @@ export default function Home() {
             onRegisterClick={openRegister}
             searchOpen={searchOpen}
             setSearchOpen={setSearchOpen}
+            onOpenDemoNotice={() => setDemoNoticeOpen(true)}
           />
 
           {/* Promo Cards */}
           {/* <PromoCards /> */}
 
           {/* Game Tabs */}
-          <GameTabs />
+          <GameTabs onOpenDemoNotice={() => setDemoNoticeOpen(true)} />
 
           {/* Footer */}
           <Footer />
@@ -114,6 +126,7 @@ export default function Home() {
           collapsed={sidebarCollapsed}
           onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
           onOpenChat={() => setChatOpen(true)}
+          onOpenDemoNotice={() => setDemoNoticeOpen(true)}
         />
       </div>
 
@@ -153,6 +166,15 @@ export default function Home() {
         isOpen={registerOpen}
         onClose={closeModals}
         onLoginClick={openLogin}
+      />
+
+      {/* =====================================================
+          DEMO NOTICE MODAL (Triggered from any game / sidebar)
+      ====================================================== */}
+
+      <DemoNoticeModal
+        isOpen={demoNoticeOpen}
+        onClose={() => setDemoNoticeOpen(false)}
       />
 
     </div>

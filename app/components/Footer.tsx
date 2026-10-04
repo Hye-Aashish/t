@@ -9,10 +9,13 @@ import {
   FaXTwitter,
   FaRegNewspaper,
   FaChevronDown,
+  FaShieldHalved,
+  FaBitcoin,
+  FaEthereum,
 } from "react-icons/fa6";
 
 import { BsChatDotsFill } from "react-icons/bs";
-import { FaShoppingBasket } from "react-icons/fa";
+import { SiTether, SiLitecoin, SiDogecoin, SiBinance, SiRipple } from "react-icons/si";
 
 type FooterColumn = {
   title: string;
@@ -32,71 +35,81 @@ const footerColumns: FooterColumn[] = [
       { label: "Roulette" },
       { label: "Blackjack" },
       { label: "Poker" },
-      { label: "Publishers" },
-      { label: "Promos & Competitions" },
-      { label: "Non stop betting and casino Engine", external: true },
-      { label: "Non stop betting and casino Vendors", external: true },
+      { label: "Providers" },
+      { label: "Promotions & Races" },
+      { label: "Stake Originals", external: true },
+      { label: "VIP Club" },
     ],
   },
   {
     title: "Sports",
     links: [
-      { label: "Sportsbook" },
-      { label: "Live Sports" },
-      { label: "Soccer" },
+      { label: "Sportsbook Home" },
+      { label: "Live Cricket" },
+      { label: "Soccer / Football" },
       { label: "Basketball" },
       { label: "Tennis" },
       { label: "Esports" },
-      { label: "Bet Bonuses" },
-      { label: "Sports Rules" },
-      { label: "Racing Rules" },
+      { label: "Bet Multipliers" },
+      { label: "Sports Betting Rules" },
+      { label: "Live Streaming" },
     ],
   },
   {
     title: "Support",
     links: [
-      { label: "Help Center", external: true },
-      { label: "Fairness" },
+      { label: "Help Center 24/7", external: true },
+      { label: "Provably Fair" },
       { label: "Responsible Gambling" },
-      { label: "Live Support (1234567890)" },
-      { label: "WhatsApp: 1234567890" },
+      { label: "Live Chat Support" },
+      { label: "WhatsApp Official" },
       { label: "Gambling Helpline", external: true },
       { label: "Self Exclusion" },
-      { label: "Law Enforcement Request" },
+      { label: "AML & KYC Policy" },
     ],
   },
   {
     title: "About Us",
     links: [
-      { label: "VIP Club" },
-      { label: "Affiliate" },
+      { label: "VIP Program" },
+      { label: "Affiliate System" },
       { label: "Privacy Policy" },
-      { label: "AML Policy" },
       { label: "Terms of Service" },
+      { label: "Official Partners" },
+      { label: "Blog & News" },
     ],
   },
   {
     title: "Payment Info",
     links: [
-      { label: "Deposit & Withdrawals" },
-      { label: "Currency Guide" },
-      { label: "Crypto Guide" },
-      { label: "Supported Crypto" },
-      { label: "How to Use the Vault" },
-      { label: "How Much to Bet With" },
+      { label: "Deposit & Withdraw" },
+      { label: "Instant Payouts" },
+      { label: "Crypto Currency Guide" },
+      { label: "Supported Coins" },
+      { label: "The Vault Guide" },
+      { label: "Bank Transfer / UPI" },
     ],
   },
   {
-    title: "FAQ",
+    title: "Community",
     links: [
-      { label: "How-to Guides" },
-      { label: "Online Casino Guide" },
-      { label: "Sports Betting Guide" },
-      { label: "How to Live Stream Sports" },
-      { label: "Non stop betting and casino VIP Guide" },
+      { label: "Forum Discussion" },
+      { label: "Telegram Community" },
+      { label: "Twitter Updates" },
+      { label: "Daily Bonus Drops" },
       { label: "House Edge Guide" },
     ],
   },
+];
+
+const cryptoBadges = [
+  { icon: FaBitcoin, name: "Bitcoin", color: "hover:text-[#f7931a]" },
+  { icon: FaEthereum, name: "Ethereum", color: "hover:text-[#627eea]" },
+  { icon: SiTether, name: "USDT", color: "hover:text-[#26a17b]" },
+  { icon: SiLitecoin, name: "Litecoin", color: "hover:text-[#345d9d]" },
+  { icon: SiDogecoin, name: "Dogecoin", color: "hover:text-[#c2a633]" },
+  { icon: SiBinance, name: "BNB", color: "hover:text-[#f3ba2f]" },
+  { icon: SiRipple, name: "XRP", color: "hover:text-[#008ce7]" },
 ];
 
 const socialLinks = [
@@ -107,7 +120,6 @@ const socialLinks = [
   { icon: FaInstagram, label: "Instagram" },
   { icon: FaYoutube, label: "Youtube" },
   { icon: FaTiktok, label: "TikTok" },
-  { icon: FaShoppingBasket, label: "Shop" },
 ];
 
 export default function Footer() {
@@ -121,33 +133,61 @@ export default function Footer() {
   };
 
   return (
-    <footer className="w-full bg-[#0d202c] text-[#a8c8dc]">
-      <div className="mx-auto max-w-[1160px] px-6 pt-8 pb-6 lg:px-0">
+    <footer className="w-full bg-[#071824] border-t border-[#213743] text-[#b1bad3] transition-colors">
+      <div className="mx-auto max-w-[1240px] px-4 sm:px-6 pt-12 pb-8">
 
-        {/* Footer Links */}
+        {/* Crypto Currency Logos Strip */}
+        <div className="mb-10 pb-8 border-b border-[#213743] flex flex-wrap items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            <span className="text-[12px] font-bold uppercase tracking-wider text-[#557086]">
+              Accepted Currencies:
+            </span>
+          </div>
+          <div className="flex flex-wrap items-center gap-4 text-[#557086]">
+            {cryptoBadges.map((coin) => {
+              const Icon = coin.icon;
+              return (
+                <div
+                  key={coin.name}
+                  title={coin.name}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0f212e] border border-[#213743] text-[13px] font-semibold text-[#b1bad3] ${coin.color} transition-colors cursor-pointer`}
+                >
+                  <Icon className="text-[16px]" />
+                  <span className="text-[12px]">{coin.name}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Footer Navigation Columns */}
         <div
           className="
             flex flex-col
-            lg:grid lg:grid-cols-6 lg:gap-x-10 lg:gap-y-0
+            lg:grid lg:grid-cols-6 lg:gap-x-8 lg:gap-y-0
           "
         >
           {footerColumns.map((column) => (
-            <div key={column.title} className="border-b border-[#1c303c] lg:border-none">
-              {/* Mobile Toggle */}
-              <button 
+            <div key={column.title} className="border-b border-[#213743] lg:border-none">
+              {/* Mobile Accordion Toggle */}
+              <button
                 onClick={() => toggleSection(column.title)}
                 className="flex w-full items-center justify-between py-4 lg:hidden text-left"
               >
-                <h3 className="text-[15px] font-bold text-white">
+                <h3 className="text-[14px] font-bold text-white">
                   {column.title}
                 </h3>
-                <span className={`text-[#a9c7da] transition-transform duration-200 ${openSection === column.title ? 'rotate-180' : ''}`}>
-                  <FaChevronDown size={14} />
+                <span
+                  className={`text-[#557086] transition-transform duration-200 ${
+                    openSection === column.title ? "rotate-180 text-white" : ""
+                  }`}
+                >
+                  <FaChevronDown size={12} />
                 </span>
               </button>
 
               {/* Desktop Title */}
-              <h3 className="hidden mb-4 text-[15px] font-bold text-white lg:block">
+              <h3 className="hidden mb-4 text-[14px] font-bold text-white lg:block">
                 <a
                   href={whatsappUrl}
                   target="_blank"
@@ -158,10 +198,11 @@ export default function Footer() {
                 </a>
               </h3>
 
-              <ul 
+              {/* Links */}
+              <ul
                 className={`
-                  space-y-[10px] overflow-hidden transition-all duration-300
-                  ${openSection === column.title ? 'max-h-[500px] pb-4 opacity-100' : 'max-h-0 opacity-0'}
+                  space-y-[9px] overflow-hidden transition-all duration-300
+                  ${openSection === column.title ? "max-h-[500px] pb-4 opacity-100" : "max-h-0 opacity-0"}
                   lg:max-h-none lg:pb-0 lg:opacity-100 lg:block
                 `}
               >
@@ -173,15 +214,14 @@ export default function Footer() {
                       rel="noopener noreferrer"
                       className="
                         inline-flex items-center gap-1
-                        text-[14px] font-medium leading-[1.35]
+                        text-[13px] font-medium leading-[1.4] text-[#b1bad3]
                         transition-colors duration-200
-                        hover:text-white
+                        hover:text-white hover:translate-x-0.5 transform
                       "
                     >
                       {link.label}
-
                       {link.external && (
-                        <span className="text-[12px] text-[#9bb9ca]">
+                        <span className="text-[11px] text-[#557086]">
                           ↗
                         </span>
                       )}
@@ -193,12 +233,26 @@ export default function Footer() {
           ))}
         </div>
 
-        {/* Social Icons */}
-        <div className="mt-8 flex justify-center">
-          <div className="flex items-center gap-[15px] text-[#9ebdd0]">
+        {/* Trust Badges & Responsible Gaming Row */}
+        <div className="mt-12 pt-8 border-t border-[#213743] flex flex-wrap items-center justify-between gap-4">
+          <div className="flex flex-wrap items-center gap-3">
+            <span className="inline-flex items-center justify-center h-8 px-2.5 rounded border border-[#213743] bg-[#0f212e] text-[12px] font-black text-[#e74c3c]">
+              18+
+            </span>
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded border border-[#213743] bg-[#0f212e] text-[12px] font-semibold text-[#b1bad3]">
+              <FaShieldHalved className="text-[#00e701]" />
+              <span>Provably Fair</span>
+            </div>
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded border border-[#213743] bg-[#0f212e] text-[12px] font-semibold text-[#b1bad3]">
+              <span className="h-2 w-2 rounded-full bg-[#00e701]" />
+              <span>24/7 Instant Support</span>
+            </div>
+          </div>
+
+          {/* Social Icons */}
+          <div className="flex items-center gap-3 text-[#b1bad3]">
             {socialLinks.map((social) => {
               const Icon = social.icon;
-
               return (
                 <a
                   key={social.label}
@@ -207,10 +261,10 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   aria-label={social.label}
                   className="
-                    flex h-5 w-5 items-center justify-center
-                    text-[15px]
+                    flex h-9 w-9 items-center justify-center rounded-lg
+                    bg-[#0f212e] border border-[#213743] text-[14px]
                     transition-all duration-200
-                    hover:scale-110 hover:text-white
+                    hover:scale-105 hover:text-white hover:border-[#1475e1] hover:bg-[#1a2c38]
                   "
                 >
                   <Icon />
@@ -221,63 +275,40 @@ export default function Footer() {
         </div>
 
         {/* Divider */}
-        <div className="mt-8 h-px w-full bg-[#385260]" />
+        <div className="mt-8 h-px w-full bg-[#213743]" />
 
-        {/* Copyright */}
-        <div className="pt-8 text-center">
-          <p className="text-[14px] font-medium text-[#a9c7da]">
-            © 2026 Non stop betting and casino | All Rights Reserved.
+        {/* Copyright & License Description */}
+        <div className="pt-8 text-center space-y-3">
+          <p className="text-[13px] font-semibold text-white">
+            © 2026 Non Stop Betting and Casino | All Rights Reserved.
           </p>
-        </div>
 
-        {/* Company Info */}
-        <div className="mx-auto mt-8 max-w-[1160px] text-center">
-          <p className="text-[14px] leading-6 text-[#a9c7da]">
-            Non stop betting and casino is owned and operated by Medium Rare N.V., registration
-            number: 145353, registered address: Seru Loraweg 17 B, Curacao.
-            Payment agent companies are Medium Rare Limited and MRS Tech
-            Limited. Contact us at{" "}
+          <p className="mx-auto max-w-[950px] text-[12px] leading-relaxed text-[#557086]">
+            Non Stop Betting and Casino is owned and operated by Medium Rare N.V., registration
+            number: 145353, registered address: Korporaalweg 10, Willemstad, Curaçao.
+            Licensed and regulated by the Government of Curaçao. Contact official support at{" "}
             <a
               href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-white underline"
+              className="text-[#b1bad3] hover:text-white underline underline-offset-2"
             >
               support@nonstopbettingandcasino.com
             </a>
-            {" "}or Support / WhatsApp:{" "}
+            {" "}or WhatsApp:{" "}
             <a
               href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-white underline font-semibold text-white"
+              className="font-bold text-[#1475e1] hover:underline"
             >
-              1234567890
+              +{whatsappNumber}
             </a>
             .
           </p>
-        </div>
 
-        {/* Responsible Gambling */}
-        <div className="mt-5 text-center">
-          <p className="text-[14px] leading-6 text-[#a9c7da]">
-            Non stop betting and casino is committed to responsible gambling, for more information
-            visit{" "}
-            <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline underline-offset-2 hover:text-white"
-            >
-              Gamblingtherapy.org
-            </a>
-          </p>
-        </div>
-
-        {/* Currency */}
-        <div className="mt-7 text-center">
-          <p className="text-[14px] font-medium text-[#a9c7da]">
-            1 USDT = $1.00
+          <p className="text-[11px] text-[#557086]">
+            Gambling can be addictive. Play responsibly. 1 USDT = $1.00 USD.
           </p>
         </div>
 

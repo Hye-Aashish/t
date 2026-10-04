@@ -13,6 +13,7 @@ import {
 } from "react-icons/fa";
 
 import { ReactNode, useEffect, useState } from "react";
+import { triggerDemoNotice } from "./DemoNoticeModal";
 
 type Bet = {
   game: string;
@@ -365,10 +366,17 @@ function LiveBadge({ onClick }: { onClick?: () => void }) {
    MAIN COMPONENT
 ========================= */
 
-export default function GameTabs() {
-  const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "1234567890";
+interface GameTabsProps {
+  onOpenDemoNotice?: () => void;
+}
+
+export default function GameTabs({ onOpenDemoNotice }: GameTabsProps = {}) {
   const handleGameClick = () => {
-    window.open(`https://wa.me/${whatsappNumber}`, "_blank");
+    if (onOpenDemoNotice) {
+      onOpenDemoNotice();
+    } else {
+      triggerDemoNotice();
+    }
   };
 
   const [activeTab, setActiveTab] = useState<
@@ -554,8 +562,8 @@ export default function GameTabs() {
   }, []);
 
   return (
-    <section className="h-auto pb-10 w-full bg-[#172d3c] px-3 py-6 text-white sm:px-6 lg:px-8">
-      <div className="mx-auto w-full max-w-[1500px]">
+    <section className="h-auto pb-12 w-full bg-[#0f212e] px-3 py-6 text-white sm:px-6 lg:px-8">
+      <div className="mx-auto w-full max-w-[1580px]">
 
         {/* =========================
             TOP TABS
@@ -563,17 +571,18 @@ export default function GameTabs() {
 
         <div className="mb-6 flex w-full items-center justify-between gap-3">
 
-          <div className="flex max-w-full overflow-x-auto rounded-full bg-[#0d202e] p-1 scrollbar-hide">
+          <div className="flex max-w-full overflow-x-auto rounded-full bg-[#1a2c38] border border-[#213743] p-1 scrollbar-hide select-none">
 
             {/* CASINO TAB */}
 
             <button
               type="button"
               onClick={() => setActiveTab("casino")}
-              className={`flex shrink-0 items-center gap-2 whitespace-nowrap rounded-full px-4 py-3 text-[14px] font-bold transition-all duration-300 sm:px-6 sm:text-[16px] ${activeTab === "casino"
-                  ? "bg-[#42627a] text-white shadow-lg"
-                  : "text-white hover:bg-[#1b3547]"
-                }`}
+              className={`cursor-pointer flex shrink-0 items-center gap-2 whitespace-nowrap rounded-full px-4 py-2.5 text-xs sm:text-sm font-bold transition-all duration-200 ${
+                activeTab === "casino"
+                  ? "bg-[#213743] text-white shadow-sm"
+                  : "text-[#b1bad3] hover:text-white hover:bg-[#213743]/50"
+              }`}
             >
               <FaChartLine className="text-[14px]" />
 
@@ -583,9 +592,8 @@ export default function GameTabs() {
 
               {activeTab === "casino" && (
                 <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#20e500]" />
-
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-[#20e500]" />
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#00e701]" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-[#00e701]" />
                 </span>
               )}
             </button>
@@ -595,10 +603,11 @@ export default function GameTabs() {
             <button
               type="button"
               onClick={() => setActiveTab("sports")}
-              className={`flex shrink-0 items-center gap-2 whitespace-nowrap rounded-full px-4 py-3 text-[14px] font-bold transition-all duration-300 sm:px-6 sm:text-[16px] ${activeTab === "sports"
-                  ? "bg-[#42627a] text-white shadow-lg"
-                  : "text-white hover:bg-[#1b3547]"
-                }`}
+              className={`cursor-pointer flex shrink-0 items-center gap-2 whitespace-nowrap rounded-full px-4 py-2.5 text-xs sm:text-sm font-bold transition-all duration-200 ${
+                activeTab === "sports"
+                  ? "bg-[#213743] text-white shadow-sm"
+                  : "text-[#b1bad3] hover:text-white hover:bg-[#213743]/50"
+              }`}
             >
               <FaFutbol className="text-[14px]" />
 
@@ -612,10 +621,11 @@ export default function GameTabs() {
             <button
               type="button"
               onClick={() => setActiveTab("race")}
-              className={`flex shrink-0 items-center gap-2 whitespace-nowrap rounded-full px-4 py-3 text-[14px] font-bold transition-all duration-300 sm:px-6 sm:text-[16px] ${activeTab === "race"
-                  ? "bg-[#42627a] text-white shadow-lg"
-                  : "text-white hover:bg-[#1b3547]"
-                }`}
+              className={`cursor-pointer flex shrink-0 items-center gap-2 whitespace-nowrap rounded-full px-4 py-2.5 text-xs sm:text-sm font-bold transition-all duration-200 ${
+                activeTab === "race"
+                  ? "bg-[#213743] text-white shadow-sm"
+                  : "text-[#b1bad3] hover:text-white hover:bg-[#213743]/50"
+              }`}
             >
               <FaTrophy className="text-[14px]" />
 
@@ -643,29 +653,14 @@ export default function GameTabs() {
         ===================================================== */}
 
         {activeTab === "sports" && (
-          <div className="w-full overflow-x-auto rounded-xl">
+          <div className="w-full overflow-x-auto rounded-xl border border-[#213743] bg-[#1a2c38]">
 
-            <div className="grid min-w-[850px] grid-cols-[1.6fr_1.25fr_1fr_0.8fr_1.25fr] items-center rounded-t-xl bg-[#0d202e] px-5 py-5 text-[14px] font-bold text-[#9bbbd0] sm:text-[15px]">
-
-              <div>
-                Event
-              </div>
-
-              <div>
-                User
-              </div>
-
-              <div>
-                Time
-              </div>
-
-              <div>
-                Odds
-              </div>
-
-              <div className="text-right">
-                Bet Amount
-              </div>
+            <div className="grid min-w-[850px] grid-cols-[1.6fr_1.25fr_1fr_0.8fr_1.25fr] items-center border-b border-[#213743] bg-[#1a2c38] px-5 py-4 text-xs font-bold text-[#b1bad3] uppercase tracking-wider">
+              <div>Event</div>
+              <div>User</div>
+              <div>Time</div>
+              <div>Odds</div>
+              <div className="text-right">Bet Amount</div>
             </div>
 
             <div>
@@ -673,47 +668,35 @@ export default function GameTabs() {
                 <div
                   key={bet.event + "-" + index}
                   onClick={handleGameClick}
-                  className="grid min-w-[850px] grid-cols-[1.6fr_1.25fr_1fr_0.8fr_1.25fr] items-center border-b border-[#395466] bg-[#172d3c] px-5 py-[17px] text-[14px] transition-all duration-300 hover:bg-[#1f3b4f] cursor-pointer sm:text-[15px]"
+                  className="grid min-w-[850px] grid-cols-[1.6fr_1.25fr_1fr_0.8fr_1.25fr] items-center border-b border-[#213743]/50 bg-[#1a2c38] px-5 py-3.5 text-xs sm:text-sm transition-all duration-200 hover:bg-[#213743]/40 cursor-pointer"
                 >
-
                   {/* EVENT */}
-
                   <div className="flex min-w-0 items-center gap-2.5 font-semibold">
-
-                    <span className="shrink-0 text-[17px] text-[#a7c7da]">
+                    <span className="shrink-0 text-[15px] text-[#1475e1]">
                       <FaFutbol />
                     </span>
-
-                    <span className="truncate text-[#e4edf3]">
+                    <span className="truncate text-white font-medium">
                       {bet.event}
                     </span>
-
                   </div>
 
                   {/* USER */}
-
                   <HiddenUser />
 
                   {/* TIME */}
-
-                  <div className="whitespace-nowrap text-[#a5bfd1]">
+                  <div className="whitespace-nowrap text-[#b1bad3] font-mono text-xs">
                     {bet.time}
                   </div>
 
                   {/* ODDS */}
-
-                  <div className="whitespace-nowrap font-semibold text-[#dce7ed]">
+                  <div className="whitespace-nowrap font-mono font-bold text-white text-xs">
                     {bet.odds}
                   </div>
 
                   {/* AMOUNT */}
-
-                  <div className="flex items-center justify-end whitespace-nowrap font-medium text-[#a5bfd1]">
+                  <div className="flex items-center justify-end whitespace-nowrap font-mono font-semibold text-white">
                     {bet.amount}
-
-                    <CurrencyBadge
-                      currency={bet.currency}
-                    />
+                    <CurrencyBadge currency={bet.currency} />
                   </div>
                 </div>
               ))}
@@ -726,119 +709,77 @@ export default function GameTabs() {
         ===================================================== */}
 
         {activeTab === "casino" && (
-          <div className="w-full overflow-x-auto rounded-xl">
+          <div className="w-full overflow-x-auto rounded-xl border border-[#213743] bg-[#1a2c38]">
 
             {/* HEADER */}
-
-            <div className="grid grid-cols-2 md:grid-cols-[1.2fr_1.15fr_0.8fr_1.15fr_0.8fr_1fr] md:min-w-[850px] items-center rounded-t-xl bg-[#0d202e] px-4 py-5 text-[14px] font-bold text-[#9bbbd0] sm:px-5 sm:text-[15px]">
-
-              <div>
-                Game
-              </div>
-
-              <div className="hidden md:block">
-                User
-              </div>
-
-              <div className="hidden md:block">
-                Time
-              </div>
-
-              <div className="hidden md:block">
-                Bet Amount
-              </div>
-
-              <div className="hidden md:block">
-                Multiplier
-              </div>
-
-              <div className="text-right">
-                Payout
-              </div>
+            <div className="grid grid-cols-2 md:grid-cols-[1.2fr_1.15fr_0.8fr_1.15fr_0.8fr_1fr] md:min-w-[850px] items-center border-b border-[#213743] bg-[#1a2c38] px-4 py-4 text-xs font-bold text-[#b1bad3] uppercase tracking-wider sm:px-5">
+              <div>Game</div>
+              <div className="hidden md:block">User</div>
+              <div className="hidden md:block">Time</div>
+              <div className="hidden md:block">Bet Amount</div>
+              <div className="hidden md:block">Multiplier</div>
+              <div className="text-right">Payout</div>
             </div>
 
             {/* ROWS */}
-
             <div>
               {bets.map((bet, index) => (
                 <div
                   key={bet.game + "-" + index}
                   onClick={handleGameClick}
-                  className={`grid grid-cols-2 md:grid-cols-[1.2fr_1.15fr_0.8fr_1.15fr_0.8fr_1fr] md:min-w-[850px] items-center border-b border-[#395466] bg-[#172d3c] px-4 py-4 md:py-5 text-[14px] transition-all duration-300 hover:bg-[#1f3b4f] cursor-pointer sm:px-5 sm:text-[15px] ${index === 0
-                      ? "animate-[pulse_3.5s_ease-in-out_infinite]"
-                      : ""
-                    }`}
+                  className={`grid grid-cols-2 md:grid-cols-[1.2fr_1.15fr_0.8fr_1.15fr_0.8fr_1fr] md:min-w-[850px] items-center border-b border-[#213743]/50 bg-[#1a2c38] px-4 py-3.5 text-xs sm:text-sm transition-all duration-200 hover:bg-[#213743]/40 cursor-pointer sm:px-5 ${
+                    index === 0 ? "bg-[#213743]/20" : ""
+                  }`}
                 >
-
                   {/* GAME */}
-
                   <div className="flex min-w-0 items-center gap-2.5 font-semibold">
-
-                    <span className="shrink-0 text-[15px] text-[#a4c5da]">
+                    <span className="shrink-0 text-[14px] text-[#1475e1]">
                       {bet.icon}
                     </span>
-
-                    <span className="truncate text-[#e4edf3] max-w-[150px] sm:max-w-none">
+                    <span className="truncate text-white font-medium max-w-[150px] sm:max-w-none">
                       {bet.game}
                     </span>
-
                   </div>
 
                   {/* USER */}
-
                   <div className="hidden md:block">
                     <HiddenUser />
                   </div>
 
                   {/* TIME */}
-
-                  <div className="hidden md:flex items-center gap-1.5 whitespace-nowrap text-[#a5bfd1]">
-
+                  <div className="hidden md:flex items-center gap-1.5 whitespace-nowrap text-[#b1bad3] font-mono text-xs">
                     {index === 0 && (
-                      <FaCircle className="animate-pulse text-[6px] text-[#20e500]" />
+                      <FaCircle className="animate-pulse text-[6px] text-[#00e701]" />
                     )}
-
                     {bet.time}
                   </div>
 
                   {/* BET AMOUNT */}
-
-                  <div className="hidden md:flex items-center whitespace-nowrap font-medium text-[#a5bfd1]">
+                  <div className="hidden md:flex items-center whitespace-nowrap font-mono font-semibold text-white">
                     {bet.amount}
-
-                    <CurrencyBadge
-                      currency={bet.currency}
-                    />
+                    <CurrencyBadge currency={bet.currency} />
                   </div>
 
                   {/* MULTIPLIER */}
-
                   <div
-                    className={`hidden md:flex items-center gap-1 whitespace-nowrap font-semibold ${bet.profit
-                        ? "text-[#20e500]"
-                        : "text-[#a5bfd1]"
-                      }`}
+                    className={`hidden md:flex items-center gap-1 whitespace-nowrap font-mono font-bold ${
+                      bet.profit ? "text-[#00e701]" : "text-[#b1bad3]"
+                    }`}
                   >
                     {bet.multiplier}
-
                     {index === 0 && (
-                      <FaBolt className="animate-pulse text-[11px]" />
+                      <FaBolt className="animate-pulse text-[11px] text-amber-400" />
                     )}
                   </div>
 
                   {/* PAYOUT */}
-
                   <div
-                    className={`flex items-center justify-end whitespace-nowrap font-medium ${bet.profit
-                        ? "text-[#20e500]"
-                        : "text-[#a5bfd1]"
-                      }`}
+                    className={`flex items-center justify-end whitespace-nowrap font-mono font-bold ${
+                      bet.profit ? "text-[#00e701]" : "text-[#73889b]"
+                    }`}
                   >
                     {bet.payout}
-
-                    <CurrencyBadge
-                      currency={bet.currency}
-                    />
+                    <CurrencyBadge currency={bet.currency} />
                   </div>
                 </div>
               ))}
@@ -864,19 +805,19 @@ export default function GameTabs() {
 
                 <div className="flex items-center gap-2 text-[16px] font-bold text-white">
 
-                  <FaChartLine className="text-[20px] text-[#9db9ca]" />
+                  <FaChartLine className="text-[20px] text-[#b1bad3]" />
 
                   <span>
                     $100k Race
                   </span>
                 </div>
 
-                <div className="flex items-center gap-2 text-[14px] font-bold text-[#dce7ed]">
+                <div className="flex items-center gap-2 text-[14px] font-bold text-[#b1bad3]">
 
                   <span className="relative flex h-2.5 w-2.5">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#20e500] opacity-75" />
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#00e701] opacity-75" />
 
-                    <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[#20e500]" />
+                    <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[#00e701]" />
                   </span>
 
                   <span>
@@ -887,7 +828,7 @@ export default function GameTabs() {
 
               {/* RACE HEADER */}
 
-              <div className="grid grid-cols-[1.6fr_1fr_0.8fr] items-center rounded-xl bg-[#0d202e] px-4 py-[18px] text-[14px] font-bold text-[#9bbbd0] sm:px-5 sm:text-[15px]">
+              <div className="grid grid-cols-[1.6fr_1fr_0.8fr] items-center rounded-xl bg-[#1a2c38] border border-[#213743] px-4 py-[18px] text-[14px] font-bold text-[#b1bad3] sm:px-5 sm:text-[15px]">
 
                 <div>
                   User
@@ -895,7 +836,7 @@ export default function GameTabs() {
 
                 <div className="flex items-center justify-center gap-2">
 
-                  <span className="text-[17px] text-[#a8c0cf]">
+                  <span className="text-[17px] text-[#557086]">
                     ⓘ
                   </span>
 
@@ -916,7 +857,7 @@ export default function GameTabs() {
                   <div
                     key={player.rank}
                     onClick={handleGameClick}
-                    className="grid grid-cols-[1.6fr_1fr_0.8fr] items-center border-b border-[#395466] px-4 py-[17px] transition-all duration-300 hover:bg-[#1f3b4f] cursor-pointer sm:px-5"
+                    className="grid grid-cols-[1.6fr_1fr_0.8fr] items-center border-b border-[#213743] px-4 py-[17px] transition-all duration-300 hover:bg-[#1a2c38]/60 cursor-pointer sm:px-5"
                   >
 
                     {/* USER */}
@@ -932,7 +873,7 @@ export default function GameTabs() {
                       {player.highlighted ? (
                         <div className="flex min-w-0 items-center gap-2">
 
-                          <FaGem className="shrink-0 text-[15px] text-[#d8e8ff]" />
+                          <FaGem className="shrink-0 text-[15px] text-[#1475e1]" />
 
                           <span className="truncate text-[15px] font-semibold text-white">
                             {player.user}
@@ -946,7 +887,7 @@ export default function GameTabs() {
 
                     {/* WAGERED */}
 
-                    <div className="flex items-center justify-center whitespace-nowrap text-[15px] font-medium text-[#a5bfd1]">
+                    <div className="flex items-center justify-center whitespace-nowrap text-[15px] font-medium text-[#b1bad3]">
                       {player.wagered}
 
                       <DollarBadge />
@@ -954,7 +895,7 @@ export default function GameTabs() {
 
                     {/* PRIZE */}
 
-                    <div className="flex items-center justify-end whitespace-nowrap text-[15px] font-semibold text-[#20e500]">
+                    <div className="flex items-center justify-end whitespace-nowrap text-[15px] font-semibold text-[#00e701]">
                       {player.prize}
 
                       <DollarBadge />

@@ -115,14 +115,14 @@ export default function RegisterModal({
           overflow-y-auto
           rounded-md
           border
-          border-[#344754]
-          bg-[#172633]
+          border-[#213743]
+          bg-[#1a2c38]
           shadow-2xl
         "
       >
 
         {/* Header */}
-        <div className="relative border-b border-[#2d414e] px-5 py-4 text-center">
+        <div className="relative border-b border-[#213743] px-5 py-4 text-center">
 
           {/* Back */}
           {step === 2 && (
@@ -133,7 +133,7 @@ export default function RegisterModal({
                 absolute
                 left-4
                 top-4
-                text-[#82919b]
+                text-[#b1bad3]
                 hover:text-white
               "
             >
@@ -145,7 +145,7 @@ export default function RegisterModal({
             Create an Account
           </h2>
 
-          <p className="mt-1.5 text-[10px] text-[#8d9ba4]">
+          <p className="mt-1 text-[11px] text-[#b1bad3]">
             Step {step}/2:{" "}
             {step === 1
               ? "Fill out your details"
@@ -153,28 +153,28 @@ export default function RegisterModal({
           </p>
 
           {/* Progress */}
-          <div className="mx-auto mt-3 flex max-w-[180px] gap-1">
+          <div className="mx-auto mt-3 flex max-w-[180px] gap-1.5">
 
             <div
               className={`
-                h-[3px]
+                h-[4px]
                 flex-1
-                rounded
+                rounded-full
                 ${step >= 1
-                  ? "bg-[#4be82f]"
-                  : "bg-[#344752]"
+                  ? "bg-[#1475e1]"
+                  : "bg-[#213743]"
                 }
               `}
             />
 
             <div
               className={`
-                h-[3px]
+                h-[4px]
                 flex-1
-                rounded
+                rounded-full
                 ${step >= 2
-                  ? "bg-[#4be82f]"
-                  : "bg-[#344752]"
+                  ? "bg-[#1475e1]"
+                  : "bg-[#213743]"
                 }
               `}
             />
@@ -189,11 +189,12 @@ export default function RegisterModal({
               absolute
               right-4
               top-4
-              text-[#82919b]
+              text-[#b1bad3]
               hover:text-white
+              transition-colors
             "
           >
-            <FaTimes size={12} />
+            <FaTimes size={13} />
           </button>
 
         </div>
@@ -214,9 +215,9 @@ export default function RegisterModal({
             )}
 
             {/* Email */}
-            <div className="mb-3">
+            <div className="mb-3.5">
 
-              <label className="mb-1 block text-[9px] text-[#aab7bf]">
+              <label className="mb-1.5 block text-[11px] font-semibold text-[#b1bad3]">
                 Email *
               </label>
 
@@ -227,27 +228,28 @@ export default function RegisterModal({
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Email"
                 className="
-                  h-[35px]
+                  h-[40px]
                   w-full
-                  rounded-sm
+                  rounded-lg
                   border
-                  border-[#3b4e5b]
-                  bg-[#101c25]
+                  border-[#213743]
+                  bg-[#0f212e]
                   px-3
-                  text-[10px]
+                  text-[12px]
                   text-white
-                  placeholder:text-[#596974]
+                  placeholder:text-[#557086]
                   outline-none
-                  focus:border-[#547181]
+                  transition
+                  focus:border-[#1475e1]
                 "
               />
 
             </div>
 
             {/* Username */}
-            <div className="mb-3">
+            <div className="mb-3.5">
 
-              <label className="mb-1 block text-[9px] text-[#aab7bf]">
+              <label className="mb-1.5 block text-[11px] font-semibold text-[#b1bad3]">
                 Username *
               </label>
 
@@ -258,27 +260,28 @@ export default function RegisterModal({
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder="Username"
                 className="
-                  h-[35px]
+                  h-[40px]
                   w-full
-                  rounded-sm
+                  rounded-lg
                   border
-                  border-[#3b4e5b]
-                  bg-[#101c25]
+                  border-[#213743]
+                  bg-[#0f212e]
                   px-3
-                  text-[10px]
+                  text-[12px]
                   text-white
-                  placeholder:text-[#596974]
+                  placeholder:text-[#557086]
                   outline-none
-                  focus:border-[#547181]
+                  transition
+                  focus:border-[#1475e1]
                 "
               />
 
             </div>
 
             {/* Password */}
-            <div className="mb-2">
+            <div className="mb-3">
 
-              <label className="mb-1 block text-[9px] text-[#aab7bf]">
+              <label className="mb-1.5 block text-[11px] font-semibold text-[#b1bad3]">
                 Password *
               </label>
 
@@ -291,19 +294,20 @@ export default function RegisterModal({
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Password"
                   className="
-                    h-[35px]
+                    h-[40px]
                     w-full
-                    rounded-sm
+                    rounded-lg
                     border
-                    border-[#3b4e5b]
-                    bg-[#101c25]
+                    border-[#213743]
+                    bg-[#0f212e]
                     px-3
                     pr-9
-                    text-[10px]
+                    text-[12px]
                     text-white
-                    placeholder:text-[#596974]
+                    placeholder:text-[#557086]
                     outline-none
-                    focus:border-[#547181]
+                    transition
+                    focus:border-[#1475e1]
                   "
                 />
 
@@ -317,28 +321,29 @@ export default function RegisterModal({
                     right-3
                     top-1/2
                     -translate-y-1/2
-                    text-[#74848e]
+                    text-[#b1bad3]
+                    hover:text-white
                   "
                 >
                   {showPassword ? (
-                    <FaEyeSlash size={11} />
+                    <FaEyeSlash size={13} />
                   ) : (
-                    <FaEye size={11} />
+                    <FaEye size={13} />
                   )}
                 </button>
 
               </div>
 
-              <p className="mt-1 text-[8px] text-[#71818b]">
+              <p className="mt-1 text-[10px] text-[#557086]">
                 Your password must be 3-14 characters long.
               </p>
 
             </div>
 
             {/* Date */}
-            <div className="mb-3">
+            <div className="mb-3.5">
 
-              <label className="mb-1 block text-[9px] text-[#aab7bf]">
+              <label className="mb-1.5 block text-[11px] font-semibold text-[#b1bad3]">
                 Date of Birth *
               </label>
 
@@ -350,30 +355,34 @@ export default function RegisterModal({
                   maxLength={2}
                   required
                   className="
-                    h-[35px]
-                    rounded-sm
+                    h-[40px]
+                    rounded-lg
                     border
-                    border-[#3b4e5b]
-                    bg-[#101c25]
-                    px-2
-                    text-[10px]
+                    border-[#213743]
+                    bg-[#0f212e]
+                    px-2.5
+                    text-[12px]
                     text-white
                     outline-none
+                    transition
+                    focus:border-[#1475e1]
                   "
                 />
 
                 <select
                   required
                   className="
-                    h-[35px]
-                    rounded-sm
+                    h-[40px]
+                    rounded-lg
                     border
-                    border-[#3b4e5b]
-                    bg-[#101c25]
+                    border-[#213743]
+                    bg-[#0f212e]
                     px-2
-                    text-[9px]
-                    text-[#8d9ba4]
+                    text-[11px]
+                    text-[#b1bad3]
                     outline-none
+                    transition
+                    focus:border-[#1475e1]
                   "
                 >
                   <option value="">Month</option>
@@ -399,27 +408,29 @@ export default function RegisterModal({
                     maxLength={4}
                     required
                     className="
-                      h-[35px]
+                      h-[40px]
                       w-full
-                      rounded-sm
+                      rounded-lg
                       border
-                      border-[#3b4e5b]
-                      bg-[#101c25]
-                      px-2
-                      text-[10px]
+                      border-[#213743]
+                      bg-[#0f212e]
+                      px-2.5
+                      text-[12px]
                       text-white
                       outline-none
+                      transition
+                      focus:border-[#1475e1]
                     "
                   />
 
                   <FaCalendarAlt
-                    size={9}
+                    size={11}
                     className="
                       absolute
-                      right-2
+                      right-2.5
                       top-1/2
                       -translate-y-1/2
-                      text-[#687984]
+                      text-[#557086]
                     "
                   />
 
@@ -430,9 +441,9 @@ export default function RegisterModal({
             </div>
 
             {/* Phone */}
-            <div className="mb-3">
+            <div className="mb-3.5">
 
-              <label className="mb-1 block text-[9px] text-[#aab7bf]">
+              <label className="mb-1.5 block text-[11px] font-semibold text-[#b1bad3]">
                 Phone (Optional)
               </label>
 
@@ -440,15 +451,17 @@ export default function RegisterModal({
 
                 <select
                   className="
-                    h-[35px]
-                    rounded-sm
+                    h-[40px]
+                    rounded-lg
                     border
-                    border-[#3b4e5b]
-                    bg-[#101c25]
+                    border-[#213743]
+                    bg-[#0f212e]
                     px-2
-                    text-[9px]
-                    text-[#8998a2]
+                    text-[11px]
+                    text-[#b1bad3]
                     outline-none
+                    transition
+                    focus:border-[#1475e1]
                   "
                 >
                   <option>🇮🇳 +91</option>
@@ -460,16 +473,18 @@ export default function RegisterModal({
                   type="tel"
                   placeholder="Phone number"
                   className="
-                    h-[35px]
-                    rounded-sm
+                    h-[40px]
+                    rounded-lg
                     border
-                    border-[#3b4e5b]
-                    bg-[#101c25]
+                    border-[#213743]
+                    bg-[#0f212e]
                     px-3
-                    text-[10px]
+                    text-[12px]
                     text-white
-                    placeholder:text-[#596974]
+                    placeholder:text-[#557086]
                     outline-none
+                    transition
+                    focus:border-[#1475e1]
                   "
                 />
 
@@ -480,7 +495,7 @@ export default function RegisterModal({
             {/* Promo */}
             <div className="mb-4">
 
-              <label className="mb-1 block text-[9px] text-[#aab7bf]">
+              <label className="mb-1.5 block text-[11px] font-semibold text-[#b1bad3]">
                 Promo Code (Optional)
               </label>
 
@@ -488,17 +503,19 @@ export default function RegisterModal({
                 type="text"
                 placeholder="Promo code"
                 className="
-                  h-[35px]
+                  h-[40px]
                   w-full
-                  rounded-sm
+                  rounded-lg
                   border
-                  border-[#3b4e5b]
-                  bg-[#101c25]
+                  border-[#213743]
+                  bg-[#0f212e]
                   px-3
-                  text-[10px]
+                  text-[12px]
                   text-white
-                  placeholder:text-[#596974]
+                  placeholder:text-[#557086]
                   outline-none
+                  transition
+                  focus:border-[#1475e1]
                 "
               />
 
@@ -508,15 +525,17 @@ export default function RegisterModal({
             <button
               type="submit"
               className="
-                h-[38px]
+                h-[42px]
                 w-full
-                rounded-sm
-                bg-[#4be82f]
-                text-[11px]
+                rounded-lg
+                bg-[#1475e1]
+                text-[13px]
                 font-bold
-                text-[#10200d]
+                text-white
                 transition
-                hover:bg-[#5bf13e]
+                hover:bg-[#1d82f5]
+                active:scale-[0.99]
+                cursor-pointer
               "
             >
               Continue
@@ -548,17 +567,17 @@ export default function RegisterModal({
                 items-center
                 justify-center
                 rounded-full
-                bg-[#243b48]
+                bg-[#213743]
                 text-[23px]
               ">
                 ✉️
               </div>
 
-              <h3 className="text-[14px] font-bold text-white">
+              <h3 className="text-[15px] font-bold text-white">
                 Complete Your Account
               </h3>
 
-              <p className="mx-auto mt-2 max-w-[300px] text-[9px] leading-4 text-[#82919b]">
+              <p className="mx-auto mt-1.5 max-w-[300px] text-[11px] leading-4 text-[#b1bad3]">
                 Choose your account preferences and create
                 your account.
               </p>
@@ -568,28 +587,30 @@ export default function RegisterModal({
             {/* Currency */}
             <div className="mb-4">
 
-              <label className="mb-1.5 block text-[9px] text-[#aab7bf]">
+              <label className="mb-1.5 block text-[11px] font-semibold text-[#b1bad3]">
                 Preferred Currency
               </label>
 
               <select
                 className="
-                  h-[38px]
+                  h-[40px]
                   w-full
-                  rounded-sm
+                  rounded-lg
                   border
-                  border-[#3b4e5b]
-                  bg-[#101c25]
+                  border-[#213743]
+                  bg-[#0f212e]
                   px-3
-                  text-[10px]
+                  text-[12px]
                   text-white
                   outline-none
+                  transition
+                  focus:border-[#1475e1]
                 "
               >
-                <option>INR - Indian Rupee</option>
-                <option>USD - US Dollar</option>
-                <option>EUR - Euro</option>
-                <option>GBP - British Pound</option>
+                <option>INR - Indian Rupee (₹)</option>
+                <option>USD - US Dollar ($)</option>
+                <option>USDT - Tether (₮)</option>
+                <option>EUR - Euro (€)</option>
               </select>
 
             </div>
@@ -597,7 +618,7 @@ export default function RegisterModal({
             {/* Confirm Password */}
             <div className="mb-4">
 
-              <label className="mb-1.5 block text-[9px] text-[#aab7bf]">
+              <label className="mb-1.5 block text-[11px] font-semibold text-[#b1bad3]">
                 Confirm Password *
               </label>
 
@@ -610,19 +631,20 @@ export default function RegisterModal({
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="Confirm your password"
                   className="
-                    h-[38px]
+                    h-[40px]
                     w-full
-                    rounded-sm
+                    rounded-lg
                     border
-                    border-[#3b4e5b]
-                    bg-[#101c25]
+                    border-[#213743]
+                    bg-[#0f212e]
                     px-3
                     pr-9
-                    text-[10px]
+                    text-[12px]
                     text-white
-                    placeholder:text-[#596974]
+                    placeholder:text-[#557086]
                     outline-none
-                    focus:border-[#547181]
+                    transition
+                    focus:border-[#1475e1]
                   "
                 />
 
@@ -638,13 +660,14 @@ export default function RegisterModal({
                     right-3
                     top-1/2
                     -translate-y-1/2
-                    text-[#74848e]
+                    text-[#b1bad3]
+                    hover:text-white
                   "
                 >
                   {showConfirmPassword ? (
-                    <FaEyeSlash size={11} />
+                    <FaEyeSlash size={13} />
                   ) : (
-                    <FaEye size={11} />
+                    <FaEye size={13} />
                   )}
                 </button>
 
@@ -658,21 +681,21 @@ export default function RegisterModal({
               <input
                 type="checkbox"
                 required
-                className="mt-[2px] h-3 w-3 accent-[#4be82f]"
+                className="mt-[2px] h-3.5 w-3.5 accent-[#1475e1]"
               />
 
-              <span className="text-[9px] leading-4 text-[#84929b]">
+              <span className="text-[11px] leading-4 text-[#b1bad3]">
                 I agree to the{" "}
                 <button
                   type="button"
-                  className="text-[#4292e8]"
+                  className="text-[#1475e1] hover:underline"
                 >
                   Terms of Service
                 </button>{" "}
                 and{" "}
                 <button
                   type="button"
-                  className="text-[#4292e8]"
+                  className="text-[#1475e1] hover:underline"
                 >
                   Privacy Policy
                 </button>
@@ -686,16 +709,18 @@ export default function RegisterModal({
               type="submit"
               disabled={loading}
               className="
-                h-[40px]
+                h-[42px]
                 w-full
-                rounded-sm
-                bg-[#4be82f]
-                text-[11px]
+                rounded-lg
+                bg-[#1475e1]
+                text-[13px]
                 font-bold
-                text-[#10200d]
+                text-white
                 transition
-                hover:bg-[#5bf13e]
+                hover:bg-[#1d82f5]
+                active:scale-[0.99]
                 disabled:opacity-50
+                cursor-pointer
               "
             >
               {loading ? "Creating..." : "Create Account"}
@@ -707,16 +732,18 @@ export default function RegisterModal({
               onClick={handleBack}
               className="
                 mt-3
-                h-[36px]
+                h-[40px]
                 w-full
-                rounded-sm
+                rounded-lg
                 border
-                border-[#405461]
-                text-[10px]
+                border-[#213743]
+                bg-[#213743]
+                text-[12px]
                 font-semibold
-                text-[#9aa8b1]
-                hover:bg-[#20323e]
-                hover:text-white
+                text-white
+                hover:bg-[#2f4d5e]
+                transition
+                cursor-pointer
               "
             >
               Back
@@ -726,9 +753,9 @@ export default function RegisterModal({
         )}
 
         {/* Bottom */}
-        <div className="border-t border-[#2d414e] px-4 py-3 text-center">
+        <div className="border-t border-[#213743] px-4 py-3 text-center">
 
-          <span className="text-[12px] text-[#7f8e98]">
+          <span className="text-[12px] text-[#b1bad3]">
             Already have an account?
           </span>
 
@@ -739,8 +766,8 @@ export default function RegisterModal({
               ml-1.5
               text-[12px]
               font-bold
-              text-[#3e91eb]
-              hover:text-[#63a9f3]
+              text-[#1475e1]
+              hover:text-white
               hover:underline
               cursor-pointer
               transition-colors

@@ -2,21 +2,26 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-
-
+import { FaUserCircle, FaWallet, FaSearch } from "react-icons/fa";
 import RegisterModal from "./RegisterModal";
 import LoginModal from "./Loginmodal";
 
 interface NavbarProps {
   onOpenLogin?: () => void;
   onOpenRegister?: () => void;
+  onToggleMobileMenu?: () => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ onOpenLogin, onOpenRegister }) => {
+const Navbar: React.FC<NavbarProps> = ({
+  onOpenLogin,
+  onOpenRegister,
+  onToggleMobileMenu,
+}) => {
   // Modal States
   const [internalLoginOpen, setInternalLoginOpen] = useState(false);
   const [internalRegisterOpen, setInternalRegisterOpen] = useState(false);
   const [user, setUser] = useState<any>(null);
+  const [activeMode, setActiveMode] = useState<"casino" | "sports">("casino");
 
   const loginOpen = internalLoginOpen;
   const registerOpen = internalRegisterOpen;
@@ -66,201 +71,127 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenLogin, onOpenRegister }) => {
 
   return (
     <>
-      {/* ================= NAVBAR ================= */}
-      <header
-        className="
-          relative
-          w-full
-          bg-[#142b3a]
-          border-b border-[#203746]
-          z-50
-          shadow-[0_4px_12px_rgba(0,0,0,0.18),0_8px_20px_rgba(0,0,0,0.08)]
-        "
-      >
-        <div
-          className="
-            mx-auto
-            w-full
-            max-w-[1548px]
-            min-h-[78px]
-            px-3
-            sm:px-6
-            xl:px-[34px]
-            py-2
-            flex
-            items-center
-            justify-between
-            gap-3
-          "
-        >
-          {/* ================= LOGO ================= */}
-          <div className="flex items-center justify-start shrink-0">
-            <Image
-              src="/img/logo.webp"
-              alt="Logo"
-              width={180}
-              height={60}
-              priority
-              className="
-                w-[130px]
-                h-[45px]
+      {/* ================= STAKE.COM NAVBAR ================= */}
+      <header className="sticky top-0 w-full bg-[#1a2c38] border-b border-[#213743] z-50 shadow-md">
+        <div className="mx-auto w-full max-w-[1580px] h-[64px] px-3 sm:px-6 xl:px-8 flex items-center justify-between gap-2 sm:gap-4">
+          
+          {/* ================= LEFT: HAMBURGER, LOGO & DUAL SWITCHER ================= */}
+          <div className="flex items-center gap-2 sm:gap-4 md:gap-6">
+            {/* Mobile Hamburger Menu Toggle */}
+            <button
+              type="button"
+              onClick={onToggleMobileMenu}
+              className="md:hidden flex items-center justify-center w-9 h-9 rounded-lg text-[#b1bad3] hover:text-white hover:bg-[#213743] transition-colors cursor-pointer"
+              aria-label="Toggle mobile menu"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <line x1="3" y1="12" x2="21" y2="12" />
+                <line x1="3" y1="18" x2="21" y2="18" />
+              </svg>
+            </button>
 
-                sm:w-[145px]
-                sm:h-[48px]
+            {/* Brand Logo - Fixed Sizing with Zero Overflow */}
+            <div className="flex items-center gap-2 sm:gap-2.5 cursor-pointer select-none">
+              <div className="relative h-[36px] w-[36px] sm:h-[40px] sm:w-[40px] shrink-0">
+                <Image
+                  src="/img/logo.webp"
+                  alt="Non Stop Betting and Casino"
+                  fill
+                  sizes="44px"
+                  priority
+                  className="object-contain"
+                />
+              </div>
+              <div className="flex flex-col leading-tight">
+                <span className="text-[12px] sm:text-[14px] font-black tracking-wider text-white uppercase font-sans whitespace-nowrap">
+                  NON STOP
+                </span>
+                <span className="text-[8px] sm:text-[9px] font-bold tracking-widest text-[#1475e1] uppercase mt-0.5 whitespace-nowrap">
+                  BETTING & CASINO
+                </span>
+              </div>
+            </div>
 
-                md:w-[160px]
-                md:h-[52px]
-
-                lg:w-[180px]
-                lg:h-[60px]
-
-                object-contain
-                object-left
-                drop-shadow-[0_4px_5px_rgba(0,0,0,0.35)]
-              "
-            />
+            {/* Stake.com Signature Dual Switcher: Casino | Sports */}
+            <div className="hidden lg:flex items-center bg-[#0f212e] p-1 rounded-full border border-[#213743] text-xs font-semibold select-none">
+              <button
+                type="button"
+                onClick={() => setActiveMode("casino")}
+                className={`cursor-pointer flex items-center gap-2 px-4 py-1.5 rounded-full transition-all ${
+                  activeMode === "casino"
+                    ? "bg-[#213743] text-white shadow-sm"
+                    : "text-[#b1bad3] hover:text-white"
+                }`}
+              >
+                <span>🎰</span> Casino
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveMode("sports")}
+                className={`cursor-pointer flex items-center gap-2 px-4 py-1.5 rounded-full transition-all ${
+                  activeMode === "sports"
+                    ? "bg-[#213743] text-white shadow-sm"
+                    : "text-[#b1bad3] hover:text-white"
+                }`}
+              >
+                <span>⚽</span> Sports
+              </button>
+            </div>
           </div>
 
-          {/* ================= RIGHT BUTTONS ================= */}
-          <div
-            className="
-              flex
-              items-center
-              gap-2
-              sm:gap-2.5
-              md:gap-3
-              shrink-0
-            "
-          >
+          {/* ================= RIGHT: WALLET / AUTH BUTTONS ================= */}
+          <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
             {user ? (
-              <>
-                <div className="text-white text-sm font-semibold mr-2">
-                  Welcome, {user.username || user.email.split("@")[0]}
+              <div className="flex items-center gap-2.5 sm:gap-3">
+                {/* Stake Wallet Pill */}
+                <div className="flex items-center bg-[#0f212e] border border-[#213743] rounded-md pl-3 pr-1 py-1 gap-2.5">
+                  <span className="text-[#b1bad3] text-xs font-semibold">₹</span>
+                  <span className="font-mono text-sm font-bold text-white tracking-wide">
+                    {user.balance !== undefined ? user.balance.toFixed(2) : "0.00"}
+                  </span>
+                  <button
+                    type="button"
+                    className="cursor-pointer bg-[#1475e1] hover:bg-[#1d82f5] text-white text-xs font-bold px-3 py-1.5 rounded transition-all active:scale-95 shadow-sm"
+                  >
+                    Wallet
+                  </button>
                 </div>
-                <button
-                  type="button"
-                  onClick={handleLogout}
-                  className="
-                    flex
-                    items-center
-                    justify-center
-                    h-[38px]
-                    sm:h-[41px]
-                    md:h-[43px]
-                    lg:h-[45px]
-                    px-3
-                    sm:px-4
-                    md:px-5
-                    lg:px-[22px]
-                    rounded-[8px]
-                    sm:rounded-[9px]
-                    lg:rounded-[10px]
-                    bg-[#e74c3c]
-                    text-white
-                    text-[12px]
-                    sm:text-[13px]
-                    md:text-[14px]
-                    lg:text-[15px]
-                    font-semibold
-                    whitespace-nowrap
-                    hover:bg-[#c0392b]
-                    transition-all
-                    duration-200
-                  "
-                >
-                  Logout
-                </button>
-              </>
+
+                {/* User Info & Logout */}
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-full bg-[#213743] border border-slate-600 flex items-center justify-center text-xs font-bold text-white uppercase">
+                    {user.username ? user.username.substring(0, 2) : "U"}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleLogout}
+                    className="cursor-pointer px-3 py-1.5 rounded-md bg-[#213743] hover:bg-[#2c4859] text-slate-300 hover:text-white text-xs font-semibold transition-all"
+                  >
+                    Logout
+                  </button>
+                </div>
+              </div>
             ) : (
-              <>
-                {/* ================= SIGN IN ================= */}
+              <div className="flex items-center gap-2">
+                {/* Stake-Style Sign In */}
                 <button
                   type="button"
                   onClick={openLogin}
-                  className="
-                    flex
-                    items-center
-                    justify-center
-
-                    h-[38px]
-                    sm:h-[41px]
-                    md:h-[43px]
-                    lg:h-[45px]
-
-                    px-3
-                    sm:px-4
-                    md:px-5
-                    lg:px-[22px]
-
-                    rounded-[8px]
-                    sm:rounded-[9px]
-                    lg:rounded-[10px]
-
-                    bg-[#3c5a70]
-                    text-white
-
-                    text-[12px]
-                    sm:text-[13px]
-                    md:text-[14px]
-                    lg:text-[15px]
-
-                    font-semibold
-                    whitespace-nowrap
-
-                    hover:bg-[#48687f]
-                    hover:shadow-[0_4px_10px_rgba(0,0,0,0.18)]
-
-                    transition-all
-                    duration-200
-                  "
+                  className="cursor-pointer flex items-center justify-center h-[38px] px-3.5 sm:px-4 rounded-md text-[#b1bad3] hover:text-white text-xs sm:text-sm font-semibold hover:bg-[#213743] transition-all select-none"
                 >
                   Sign In
                 </button>
 
-                {/* ================= REGISTER ================= */}
+                {/* Stake-Style Register Button */}
                 <button
                   type="button"
                   onClick={openRegister}
-                  className="
-                    flex
-                items-center
-                justify-center
-
-                h-[38px]
-                sm:h-[41px]
-                md:h-[43px]
-                lg:h-[45px]
-
-                px-3
-                sm:px-4
-                md:px-5
-                lg:px-[22px]
-
-                rounded-[8px]
-                sm:rounded-[9px]
-                lg:rounded-[10px]
-
-                bg-[#1476df]
-                text-white
-
-                text-[12px]
-                sm:text-[13px]
-                md:text-[14px]
-                lg:text-[15px]
-
-                font-semibold
-                whitespace-nowrap
-
-                hover:bg-[#2585ed]
-                hover:shadow-[0_4px_10px_rgba(20,118,223,0.25)]
-
-                transition-all
-                duration-200
-              "
-            >
-              Register
-            </button>
-            </>
+                  className="cursor-pointer flex items-center justify-center h-[38px] px-4 sm:px-5 rounded-md bg-[#1475e1] hover:bg-[#1d82f5] text-white text-xs sm:text-sm font-bold shadow-[0_2px_8px_rgba(20,117,225,0.35)] transition-all select-none active:scale-95"
+                >
+                  Register
+                </button>
+              </div>
             )}
           </div>
         </div>
