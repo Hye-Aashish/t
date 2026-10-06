@@ -9,6 +9,7 @@ import DemoNoticeModal from "./components/DemoNoticeModal";
 import Navbar from "./components/Navbar";
 import GameSection from "./components/GameSection";
 import GameTabs from "./components/GameTabs";
+import GKGamesSection from "./components/GKGamesSection";
 import PromoCards from "./components/PromoCards";
 import Footer from "./components/Footer";
 import RegionPopup from "./components/RegionPopup";
@@ -66,6 +67,7 @@ export default function Home() {
 
         <aside className="hidden md:block z-40">
           <Sidebar
+            isMobile={false}
             mobileOpen={true}
             onClose={() => setMobileOpen(false)}
             collapsed={sidebarCollapsed}
@@ -110,6 +112,9 @@ export default function Home() {
           {/* Game Tabs */}
           <GameTabs onOpenDemoNotice={() => setDemoNoticeOpen(true)} />
 
+          {/* GK Club & Multiplayer Games Section */}
+          <GKGamesSection onOpenDemoNotice={() => setDemoNoticeOpen(true)} />
+
           {/* Footer */}
           <Footer />
         </main>
@@ -121,12 +126,17 @@ export default function Home() {
 
       <div className="md:hidden">
         <Sidebar
+          isMobile={true}
           mobileOpen={mobileOpen}
           onClose={() => setMobileOpen(false)}
-          collapsed={sidebarCollapsed}
-          onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
-          onOpenChat={() => setChatOpen(true)}
-          onOpenDemoNotice={() => setDemoNoticeOpen(true)}
+          onOpenChat={() => {
+            setMobileOpen(false);
+            setChatOpen(true);
+          }}
+          onOpenDemoNotice={() => {
+            setMobileOpen(false);
+            setDemoNoticeOpen(true);
+          }}
         />
       </div>
 

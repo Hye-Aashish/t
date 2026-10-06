@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import {
   FaGift,
   FaMountain,
@@ -13,6 +14,7 @@ import {
   FaHeadphones,
   FaGlobe,
   FaBars,
+  FaTimes,
   FaChevronDown,
 } from "react-icons/fa";
 import { triggerDemoNotice } from "./DemoNoticeModal";
@@ -24,6 +26,7 @@ interface SidebarProps {
   onToggleCollapse?: () => void;
   onOpenChat?: () => void;
   onOpenDemoNotice?: () => void;
+  isMobile?: boolean;
 }
 
 const menuItems = [
@@ -82,13 +85,20 @@ const Sidebar: React.FC<SidebarProps> = ({
   onToggleCollapse,
   onOpenChat,
   onOpenDemoNotice,
+  isMobile = false,
 }) => {
   const [localCollapsed, setLocalCollapsed] = useState(true);
-  const collapsed = propCollapsed !== undefined ? propCollapsed : localCollapsed;
-  
+  const rawCollapsed = propCollapsed !== undefined ? propCollapsed : localCollapsed;
+  // On mobile screens, the navigation drawer is ALWAYS fully expanded (never collapsed)
+  const isCollapsed = isMobile ? false : rawCollapsed;
+
   const handleToggle = () => {
-    if (onToggleCollapse) onToggleCollapse();
-    else setLocalCollapsed(!localCollapsed);
+    if (isMobile) {
+      onClose();
+    } else {
+      if (onToggleCollapse) onToggleCollapse();
+      else setLocalCollapsed(!localCollapsed);
+    }
   };
 
   const [promotionOpen, setPromotionOpen] = useState(false);
@@ -101,7 +111,7 @@ const Sidebar: React.FC<SidebarProps> = ({
     } else {
       triggerDemoNotice();
     }
-    if (window.innerWidth < 768) {
+    if (isMobile) {
       onClose();
     }
   };
@@ -109,14 +119,17 @@ const Sidebar: React.FC<SidebarProps> = ({
   const handleMenuClick = (label: string) => {
     if (label === "Promotions") {
       setPromotionOpen((prev) => !prev);
+      return;
     }
 
     if (label === "Sponsorships") {
       setSponsorshipOpen((prev) => !prev);
+      return;
     }
 
     if (label === "Language: English") {
       setLanguageOpen((prev) => !prev);
+      return;
     }
 
     openWhatsApp();
@@ -124,14 +137,16 @@ const Sidebar: React.FC<SidebarProps> = ({
 
   return (
     <>
-      {/* Mobile Overlay */}
-      {mobileOpen && (
+      {/* Mobile Backdrop Overlay */}
+      {isMobile && mobileOpen && (
         <div
-          className="fixed inset-0 z-40 bg-black/60 md:hidden"
+          className="fixed inset-0 z-40 bg-black/70 backdrop-blur-xs transition-opacity duration-300 md:hidden animate-in fade-in"
           onClick={onClose}
+          aria-hidden="true"
         />
       )}
 
+      {/* Sidebar Aside */}
       <aside
         className={`
           fixed
@@ -142,78 +157,156 @@ const Sidebar: React.FC<SidebarProps> = ({
           bg-[#0f212e]
           border-r border-[#213743]
           text-white
-          transition-all
-          duration-300
-          ease-in-out
-         
-
-          ${mobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
-
-          w-[264px]
-          ${collapsed ? "md:w-[78px]" : "md:w-[264px]"}
+          overflow-y-auto
           overflow-x-hidden
+          scrollbar-hide
+          ${
+            isMobile
+              ? `w-[280px] max-w-[85vw] transition-transform duration-300 ease-out ${
+                  mobileOpen
+                    ? "translate-x-0 shadow-[0_0_50px_rgba(0,0,0,0.8)]"
+                    : "-translate-x-full pointer-events-none"
+                }`
+              : `transition-[width] duration-300 ease-in-out md:translate-x-0 ${
+                  isCollapsed ? "w-[78px]" : "w-[264px]"
+                }`
+          }
         `}
       >
-        <div
-          className={`
-            h-full
-            px-3
-            py-4
-            transition-all
-            duration-300
-            ease-in-out
-            w-[264px]
-            ${collapsed ? "md:w-[78px]" : "md:w-[264px]"}
-          `}
-        >
-          {/* ================= TOP BAR ================= */}
-          <div
-            className={`
-              flex
-              items-center
-              gap-3
-              mb-5
-              
-              ${collapsed ? "md:justify-center" : "justify-start"}
-            `}
-          >
-            {/* MENU BUTTON */}
-            <button
-              type="button"
-              onClick={handleToggle}
-              className="
-                cursor-pointer
+        <div className="h-full px-3 py-4 flex flex-col justify-between">
+          <div>
+            {/* ================= TOP BAR ================= */}
+            <div
+              className={`
                 flex
-                h-10
-                w-10
-                shrink-0
                 items-center
-                justify-center
-                rounded-lg
-                text-[#b1bad3]
-                transition
-                hover:bg-[#1a2c38]
-                hover:text-white
-              "
-              aria-label="Toggle sidebar"
+                gap-3
+                mb-5
+                ${isMobile ? "justify-between" : isCollapsed ? "justify-center" : "justify-between"}
+              `}
             >
-              <FaBars size={18} />
-            </button>
+              {/* Desktop Toggle or Mobile Close Button */}
+              {isMobile ? (
+                <div className="flex items-center justify-between w-full">
+                  <div className="flex items-center gap-2">
+                    <div className="relative h-7 w-7 shrink-0">
+                      <Image
+                        src="/img/logo.webp"
+                        alt="Logo"
+                        fill
+                        sizes="28px"
+                        className="object-contain"
+                      />
+                    </div>
+                    <span className="text-xs font-black tracking-wider text-white uppercase">
+                      NON STOP
+                    </span>
+                  </div>
 
-            {/* Casino / Sports */}
-            {!collapsed && (
-              <div className="flex items-center gap-2 bg-[#0f212e] p-1 rounded-lg border border-[#213743]">
+                  <button
+                    type="button"
+                    onClick={onClose}
+                    className="
+                      cursor-pointer
+                      flex
+                      h-8
+                      w-8
+                      shrink-0
+                      items-center
+                      justify-center
+                      rounded-lg
+                      text-[#b1bad3]
+                      hover:bg-[#1a2c38]
+                      hover:text-white
+                      transition-colors
+                    "
+                    aria-label="Close menu"
+                  >
+                    <FaTimes size={16} />
+                  </button>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={handleToggle}
+                  className="
+                    cursor-pointer
+                    flex
+                    h-10
+                    w-10
+                    shrink-0
+                    items-center
+                    justify-center
+                    rounded-lg
+                    text-[#b1bad3]
+                    transition-colors
+                    hover:bg-[#1a2c38]
+                    hover:text-white
+                  "
+                  aria-label="Toggle sidebar"
+                >
+                  <FaBars size={18} />
+                </button>
+              )}
+
+              {/* Casino / Sports Switcher (Desktop expanded only) */}
+              {!isMobile && !isCollapsed && (
+                <div className="flex items-center gap-2 bg-[#0f212e] p-1 rounded-lg border border-[#213743]">
+                  <button
+                    type="button"
+                    onClick={openWhatsApp}
+                    className="
+                      rounded-md
+                      bg-[#213743]
+                      px-3.5
+                      py-1.5
+                      text-xs
+                      font-bold
+                      text-white
+                      transition
+                      hover:bg-[#2b4859]
+                      cursor-pointer
+                    "
+                  >
+                    🎰 Casino
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={openWhatsApp}
+                    className="
+                      rounded-md
+                      bg-[#1475e1]
+                      px-3.5
+                      py-1.5
+                      text-xs
+                      font-bold
+                      text-white
+                      transition
+                      hover:bg-[#1d82f5]
+                      cursor-pointer
+                    "
+                  >
+                    ⚽ Sports
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {/* Mobile Mode Switcher Banner */}
+            {isMobile && (
+              <div className="grid grid-cols-2 gap-2 mb-4 p-1 rounded-xl bg-[#14242f] border border-[#213743]">
                 <button
                   type="button"
                   onClick={openWhatsApp}
                   className="
-                    rounded-md
+                    rounded-lg
                     bg-[#213743]
-                    px-3.5
-                    py-1.5
+                    py-2
                     text-xs
                     font-bold
                     text-white
+                    text-center
                     transition
                     hover:bg-[#2b4859]
                     cursor-pointer
@@ -226,13 +319,13 @@ const Sidebar: React.FC<SidebarProps> = ({
                   type="button"
                   onClick={openWhatsApp}
                   className="
-                    rounded-md
+                    rounded-lg
                     bg-[#1475e1]
-                    px-3.5
-                    py-1.5
+                    py-2
                     text-xs
                     font-bold
                     text-white
+                    text-center
                     transition
                     hover:bg-[#1d82f5]
                     cursor-pointer
@@ -242,230 +335,230 @@ const Sidebar: React.FC<SidebarProps> = ({
                 </button>
               </div>
             )}
-          </div>
 
-          {/* ================= MENU BOX ================= */}
-          <div
-            className={`
-              rounded-xl
-              bg-[#1a2c38]
-              border border-[#213743]
-              py-3
-              transition-all
-              duration-300
-              ${collapsed ? "md:bg-transparent md:border-transparent" : ""}
-            `}
-          >
-            {/* MAIN MENU */}
-            <div className="space-y-1  shadow-[0_4px_12px_rgba(0,0,0,0.18),0_8px_20px_rgba(0,0,0,0.08)]">
-              {menuItems.map((item) => {
-                const Icon = item.icon;
+            {/* ================= MENU BOX ================= */}
+            <div
+              className={`
+                rounded-xl
+                bg-[#1a2c38]
+                border border-[#213743]
+                py-2
+                ${isCollapsed ? "md:bg-transparent md:border-transparent" : ""}
+              `}
+            >
+              {/* MAIN MENU */}
+              <div className="space-y-0.5">
+                {menuItems.map((item) => {
+                  const Icon = item.icon;
 
-                return (
-                  <div key={item.label}>
-                    <button
-                      type="button"
-                      onClick={() => handleMenuClick(item.label)}
-                      className={`
-                        cursor-pointer
-                        group
-                        flex
-                        w-full
-                        items-center
-                        rounded-lg
-                        px-3
-                        py-2.5
-                        text-left
-                        text-xs sm:text-sm
-                        font-semibold
-                        text-[#b1bad3]
-                        transition-all
-                        hover:bg-[#213743]
-                        hover:text-white
-
-                        ${collapsed ? "md:justify-center md:px-0" : ""}
-                      `}
-                    >
-                      <Icon
-                        className="
-                          shrink-0
+                  return (
+                    <div key={item.label}>
+                      <button
+                        type="button"
+                        onClick={() => handleMenuClick(item.label)}
+                        className={`
+                          cursor-pointer
+                          group
+                          flex
+                          w-full
+                          items-center
+                          rounded-lg
+                          px-3
+                          py-2.5
+                          text-left
+                          text-xs sm:text-sm
+                          font-semibold
                           text-[#b1bad3]
-                          transition
-                          group-hover:text-white
-                        "
-                        size={17}
-                      />
+                          transition-colors
+                          hover:bg-[#213743]
+                          hover:text-white
+                          ${isCollapsed ? "justify-center px-0" : ""}
+                        `}
+                      >
+                        <Icon
+                          className="
+                            shrink-0
+                            text-[#b1bad3]
+                            transition-colors
+                            group-hover:text-white
+                          "
+                          size={17}
+                        />
 
-                      {!collapsed && (
-                        <>
-                          <span className="ml-3 flex-1">
-                            {item.label}
-                          </span>
+                        {!isCollapsed && (
+                          <>
+                            <span className="ml-3 flex-1 text-xs sm:text-sm font-semibold">
+                              {item.label}
+                            </span>
 
-                          {item.dropdown && (
-                            <FaChevronDown
-                              size={12}
-                              className={`
-                                text-[#557086]
-                                transition-transform
-                                ${
-                                  item.label === "Promotions" &&
-                                  promotionOpen
-                                    ? "rotate-180"
-                                    : ""
-                                }
-                              `}
-                            />
-                          )}
-                        </>
-                      )}
-                    </button>
+                            {item.dropdown && (
+                              <FaChevronDown
+                                size={11}
+                                className={`
+                                  text-[#557086]
+                                  transition-transform duration-200
+                                  ${
+                                    item.label === "Promotions" && promotionOpen
+                                      ? "rotate-180"
+                                      : ""
+                                  }
+                                `}
+                              />
+                            )}
+                          </>
+                        )}
+                      </button>
 
-                    {/* Promotions Dropdown */}
-                    {item.label === "Promotions" &&
-                      promotionOpen &&
-                      !collapsed && (
-                        <div className="ml-10 mt-1 space-y-1">
-                          <button
-                            type="button"
-                            onClick={openWhatsApp}
-                            className="block w-full rounded-md px-3 py-1.5 text-left text-xs font-medium text-[#b1bad3] hover:bg-[#213743] hover:text-white cursor-pointer"
-                          >
-                            Latest Promotions
-                          </button>
+                      {/* Promotions Dropdown */}
+                      {item.label === "Promotions" &&
+                        promotionOpen &&
+                        !isCollapsed && (
+                          <div className="ml-9 my-1 space-y-1">
+                            <button
+                              type="button"
+                              onClick={openWhatsApp}
+                              className="block w-full rounded-md px-3 py-1.5 text-left text-xs font-medium text-[#b1bad3] hover:bg-[#213743] hover:text-white cursor-pointer transition-colors"
+                            >
+                              Latest Promotions
+                            </button>
 
-                          <button
-                            type="button"
-                            onClick={openWhatsApp}
-                            className="block w-full rounded-md px-3 py-1.5 text-left text-xs font-medium text-[#b1bad3] hover:bg-[#213743] hover:text-white cursor-pointer"
-                          >
-                            Bonus Offers
-                          </button>
-                        </div>
-                      )}
-                  </div>
-                );
-              })}
-            </div>
+                            <button
+                              type="button"
+                              onClick={openWhatsApp}
+                              className="block w-full rounded-md px-3 py-1.5 text-left text-xs font-medium text-[#b1bad3] hover:bg-[#213743] hover:text-white cursor-pointer transition-colors"
+                            >
+                              Bonus Offers
+                            </button>
+                          </div>
+                        )}
+                    </div>
+                  );
+                })}
+              </div>
 
-            {/* ================= DIVIDER ================= */}
-            {!collapsed && (
-              <div className="mx-3 my-3 border-t border-[#213743]" />
-            )}
+              {/* ================= DIVIDER ================= */}
+              {!isCollapsed && (
+                <div className="mx-3 my-2 border-t border-[#213743]" />
+              )}
 
-            {/* ================= BOTTOM MENU ================= */}
-            <div className="space-y-1">
-              {bottomItems.map((item) => {
-                const Icon = item.icon;
+              {/* ================= BOTTOM MENU ================= */}
+              <div className="space-y-0.5">
+                {bottomItems.map((item) => {
+                  const Icon = item.icon;
 
-                return (
-                  <div key={item.label}>
-                    <button
-                      type="button"
-                      onClick={() => handleMenuClick(item.label)}
-                      className={`
-                        cursor-pointer
-                        group
-                        flex
-                        w-full
-                        items-center
-                        rounded-lg
-                        px-3
-                        py-2.5
-                        text-left
-                        text-xs sm:text-sm
-                        font-semibold
-                        text-[#b1bad3]
-                        transition-all
-                        hover:bg-[#213743]
-                        hover:text-white
-
-                        ${collapsed ? "md:justify-center md:px-0" : ""}
-                      `}
-                    >
-                      <Icon
-                        size={17}
-                        className="
-                          shrink-0
+                  return (
+                    <div key={item.label}>
+                      <button
+                        type="button"
+                        onClick={() => handleMenuClick(item.label)}
+                        className={`
+                          cursor-pointer
+                          group
+                          flex
+                          w-full
+                          items-center
+                          rounded-lg
+                          px-3
+                          py-2.5
+                          text-left
+                          text-xs sm:text-sm
+                          font-semibold
                           text-[#b1bad3]
-                          transition
-                          group-hover:text-white
-                        "
-                      />
+                          transition-colors
+                          hover:bg-[#213743]
+                          hover:text-white
+                          ${isCollapsed ? "justify-center px-0" : ""}
+                        `}
+                      >
+                        <Icon
+                          size={17}
+                          className="
+                            shrink-0
+                            text-[#b1bad3]
+                            transition-colors
+                            group-hover:text-white
+                          "
+                        />
 
-                      {!collapsed && (
-                        <>
-                          <span className="ml-3 flex-1">
-                            {item.label}
-                          </span>
+                        {!isCollapsed && (
+                          <>
+                            <span className="ml-3 flex-1 text-xs sm:text-sm font-semibold truncate">
+                              {item.label}
+                            </span>
 
-                          {item.dropdown && (
-                            <FaChevronDown
-                              size={14}
-                              className={`
-                                text-[#9fbacc]
-                                transition-transform
-                                ${
-                                  item.label === "Sponsorships" &&
-                                  sponsorshipOpen
-                                    ? "rotate-180"
-                                    : ""
-                                }
-                                ${
-                                  item.label === "Language: English" &&
-                                  languageOpen
-                                    ? "rotate-180"
-                                    : ""
-                                }
-                              `}
-                            />
-                          )}
-                        </>
-                      )}
-                    </button>
+                            {item.dropdown && (
+                              <FaChevronDown
+                                size={11}
+                                className={`
+                                  text-[#557086]
+                                  transition-transform duration-200
+                                  ${
+                                    item.label === "Sponsorships" && sponsorshipOpen
+                                      ? "rotate-180"
+                                      : ""
+                                  }
+                                  ${
+                                    item.label === "Language: English" && languageOpen
+                                      ? "rotate-180"
+                                      : ""
+                                  }
+                                `}
+                              />
+                            )}
+                          </>
+                        )}
+                      </button>
 
-                    {/* Sponsorship Dropdown */}
-                    {item.label === "Sponsorships" &&
-                      sponsorshipOpen &&
-                      !collapsed && (
-                        <div className="ml-12 mt-1">
-                          <button
-                            type="button"
-                            onClick={openWhatsApp}
-                            className="block w-full rounded-md px-3 py-2 text-left text-sm text-[#a8c5d8] hover:bg-[#223e50] hover:text-white cursor-pointer"
-                          >
-                            Our Partners
-                          </button>
-                        </div>
-                      )}
+                      {/* Sponsorship Dropdown */}
+                      {item.label === "Sponsorships" &&
+                        sponsorshipOpen &&
+                        !isCollapsed && (
+                          <div className="ml-9 my-1">
+                            <button
+                              type="button"
+                              onClick={openWhatsApp}
+                              className="block w-full rounded-md px-3 py-1.5 text-left text-xs font-medium text-[#b1bad3] hover:bg-[#213743] hover:text-white cursor-pointer transition-colors"
+                            >
+                              Our Partners
+                            </button>
+                          </div>
+                        )}
 
-                    {/* Language Dropdown */}
-                    {item.label === "Language: English" &&
-                      languageOpen &&
-                      !collapsed && (
-                        <div className="ml-12 mt-1 space-y-1">
-                          <button
-                            type="button"
-                            onClick={openWhatsApp}
-                            className="block w-full rounded-md px-3 py-2 text-left text-sm text-[#a8c5d8] hover:bg-[#223e50] hover:text-white cursor-pointer"
-                          >
-                            English
-                          </button>
+                      {/* Language Dropdown */}
+                      {item.label === "Language: English" &&
+                        languageOpen &&
+                        !isCollapsed && (
+                          <div className="ml-9 my-1 space-y-1">
+                            <button
+                              type="button"
+                              onClick={openWhatsApp}
+                              className="block w-full rounded-md px-3 py-1.5 text-left text-xs font-medium text-[#b1bad3] hover:bg-[#213743] hover:text-white cursor-pointer transition-colors"
+                            >
+                              English
+                            </button>
 
-                          <button
-                            type="button"
-                            onClick={openWhatsApp}
-                            className="block w-full rounded-md px-3 py-2 text-left text-sm text-[#a8c5d8] hover:bg-[#223e50] hover:text-white cursor-pointer"
-                          >
-                            Hindi
-                          </button>
-                        </div>
-                      )}
-                  </div>
-                );
-              })}
+                            <button
+                              type="button"
+                              onClick={openWhatsApp}
+                              className="block w-full rounded-md px-3 py-1.5 text-left text-xs font-medium text-[#b1bad3] hover:bg-[#213743] hover:text-white cursor-pointer transition-colors"
+                            >
+                              Hindi
+                            </button>
+                          </div>
+                        )}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
+
+          {/* Footer note inside mobile drawer */}
+          {isMobile && (
+            <div className="mt-4 pt-3 border-t border-[#213743] text-center text-[11px] text-[#557086]">
+              Non Stop Betting & Casino • 24/7 Support
+            </div>
+          )}
         </div>
       </aside>
     </>
