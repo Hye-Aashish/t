@@ -59,7 +59,7 @@ export default function Home() {
   // Fluctuate all numbers on the page every few seconds
   useEffect(() => {
     const interval = setInterval(() => {
-      const walk = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
+      const walk = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
       let node;
       while ((node = walk.nextNode())) {
         if (
