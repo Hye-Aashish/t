@@ -36,6 +36,53 @@ export default function Home() {
     return () => window.removeEventListener("open-demo-notice", handleOpenDemo);
   }, []);
 
+  // Fluctuate all numbers on the page every few seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const walk = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
+      let node;
+      while ((node = walk.nextNode())) {
+        if (
+          node.parentElement &&
+          ['SCRIPT', 'STYLE', 'NOSCRIPT', 'INPUT', 'TEXTAREA'].includes(node.parentElement.tagName)
+        ) continue;
+        
+        const text = node.nodeValue;
+        if (text && /\d/.test(text)) {
+          const newText = text.replace(/\b\d+(?:,\d+)*(?:\.\d+)?\b/g, (match) => {
+             const numStr = match.replace(/,/g, '');
+             const num = parseFloat(numStr);
+             if (isNaN(num)) return match;
+             
+             // Randomly increase or decrease by up to 5% or at least 1
+             const fluctuation = Math.max(1, Math.abs(num * (Math.random() * 0.1 - 0.05)));
+             const sign = Math.random() > 0.5 ? 1 : -1;
+             let newNum = num + sign * fluctuation;
+             if (newNum < 0) newNum = 0; // avoid negative if it wasn't
+             
+             if (Number.isInteger(num) || match.indexOf('.') === -1) {
+               newNum = Math.round(newNum);
+             } else {
+               const decimals = match.split('.')[1]?.length || 2;
+               newNum = parseFloat(newNum.toFixed(decimals));
+             }
+             
+             if (match.includes(',')) {
+                return newNum.toLocaleString('en-US');
+             }
+             return newNum.toString();
+          });
+          
+          if (newText !== text) {
+            node.nodeValue = newText;
+          }
+        }
+      }
+    }, 5000);
+    
+    return () => clearInterval(interval);
+  }, []);
+
   // Open Login
   const openLogin = () => {
     setRegisterOpen(false);
