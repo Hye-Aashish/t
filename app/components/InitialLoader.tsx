@@ -10,7 +10,7 @@ export default function InitialLoader() {
   useEffect(() => {
     const video = videoRef.current;
     if (video) {
-      video.muted = true;
+      video.muted = false;
       video.play().catch(() => {});
     }
 
@@ -46,7 +46,6 @@ export default function InitialLoader() {
           ref={videoRef}
           src="/img/loader3.mp4"
           autoPlay
-          muted
           playsInline
           loop
           preload="auto"

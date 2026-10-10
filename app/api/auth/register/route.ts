@@ -1,11 +1,8 @@
 import { NextResponse } from "next/server";
-import dbConnect from "@/lib/mongodb";
-import User from "@/models/User";
 import { signToken, setAuthCookie } from "@/lib/auth";
 
 export async function POST(req: Request) {
   try {
-    await dbConnect();
     const { email, username, password } = await req.json();
 
     if (!email || !password) {
@@ -15,25 +12,23 @@ export async function POST(req: Request) {
       );
     }
 
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return NextResponse.json(
-        { error: "User with this email already exists" },
-        { status: 409 }
-      );
-    }
+    // DUMMY REGISTER: Accept any credentials
+    const dummyUser = {
+      _id: "dummy_id_" + Date.now(),
+      email: email,
+      username: username || email.split("@")[0],
+    };
 
-    const user = await User.create({ email, username, password });
-    const token = signToken({ id: user._id, email: user.email, username: user.username });
+    const token = signToken({ id: dummyUser._id, email: dummyUser.email, username: dummyUser.username });
     
     await setAuthCookie(token);
 
     return NextResponse.json({
       message: "User registered successfully",
       user: {
-        id: user._id,
-        email: user.email,
-        username: user.username,
+        id: dummyUser._id,
+        email: dummyUser.email,
+        username: dummyUser.username,
       },
     });
   } catch (error: any) {

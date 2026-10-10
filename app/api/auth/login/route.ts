@@ -1,12 +1,8 @@
 import { NextResponse } from "next/server";
-import dbConnect from "@/lib/mongodb";
-import User from "@/models/User";
-import bcrypt from "bcryptjs";
 import { signToken, setAuthCookie } from "@/lib/auth";
 
 export async function POST(req: Request) {
   try {
-    await dbConnect();
     const { email, password } = await req.json();
 
     if (!email || !password) {
@@ -16,36 +12,23 @@ export async function POST(req: Request) {
       );
     }
 
-    // Try finding by email or username
-    const user = await User.findOne({
-      $or: [{ email: email }, { username: email }],
-    });
+    // DUMMY LOGIN: Accept any credentials
+    const dummyUser = {
+      _id: "dummy_id_" + Date.now(),
+      email: email,
+      username: email.split("@")[0],
+    };
 
-    if (!user) {
-      return NextResponse.json(
-        { error: "Invalid credentials" },
-        { status: 401 }
-      );
-    }
-
-    const isMatch = await bcrypt.compare(password, user.password || "");
-    if (!isMatch) {
-      return NextResponse.json(
-        { error: "Invalid credentials" },
-        { status: 401 }
-      );
-    }
-
-    const token = signToken({ id: user._id, email: user.email, username: user.username });
+    const token = signToken({ id: dummyUser._id, email: dummyUser.email, username: dummyUser.username });
     
     await setAuthCookie(token);
 
     return NextResponse.json({
       message: "Logged in successfully",
       user: {
-        id: user._id,
-        email: user.email,
-        username: user.username,
+        id: dummyUser._id,
+        email: dummyUser.email,
+        username: dummyUser.username,
       },
     });
   } catch (error: any) {

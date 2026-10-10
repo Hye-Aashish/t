@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import Sidebar from "./components/Sidebar";
 import LoginModal from "./components/Loginmodal";
@@ -30,10 +30,30 @@ export default function Home() {
   const [chatOpen, setChatOpen] = useState(false);
 
   // Global listener for opening demo notice from anywhere
+  const userRef = useRef<any>(null);
+
   useEffect(() => {
-    const handleOpenDemo = () => setDemoNoticeOpen(true);
-    window.addEventListener("open-demo-notice", handleOpenDemo);
-    return () => window.removeEventListener("open-demo-notice", handleOpenDemo);
+    fetch("/api/auth/me")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.user) {
+          userRef.current = data.user;
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  const handleGameClick = () => {
+    if (userRef.current) {
+      setDemoNoticeOpen(true);
+    } else {
+      setLoginOpen(true);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("open-demo-notice", handleGameClick);
+    return () => window.removeEventListener("open-demo-notice", handleGameClick);
   }, []);
 
   // Fluctuate all numbers on the page every few seconds
@@ -120,7 +140,7 @@ export default function Home() {
             collapsed={sidebarCollapsed}
             onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
             onOpenChat={() => setChatOpen(true)}
-            onOpenDemoNotice={() => setDemoNoticeOpen(true)}
+            onOpenDemoNotice={handleGameClick}
           />
         </aside>
 
@@ -150,17 +170,17 @@ export default function Home() {
             onRegisterClick={openRegister}
             searchOpen={searchOpen}
             setSearchOpen={setSearchOpen}
-            onOpenDemoNotice={() => setDemoNoticeOpen(true)}
+            onOpenDemoNotice={handleGameClick}
           />
 
           {/* Promo Cards */}
           {/* <PromoCards /> */}
 
           {/* Game Tabs */}
-          <GameTabs onOpenDemoNotice={() => setDemoNoticeOpen(true)} />
+          <GameTabs onOpenDemoNotice={handleGameClick} />
 
           {/* GK Club & Multiplayer Games Section */}
-          <GKGamesSection onOpenDemoNotice={() => setDemoNoticeOpen(true)} />
+          <GKGamesSection onOpenDemoNotice={handleGameClick} />
 
           {/* Footer */}
           <Footer />
@@ -182,7 +202,7 @@ export default function Home() {
           }}
           onOpenDemoNotice={() => {
             setMobileOpen(false);
-            setDemoNoticeOpen(true);
+            handleGameClick();
           }}
         />
       </div>
