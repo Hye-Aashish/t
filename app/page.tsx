@@ -7,6 +7,7 @@ import LoginModal from "./components/Loginmodal";
 import RegisterModal from "./components/RegisterModal";
 import DemoNoticeModal from "./components/DemoNoticeModal";
 import Navbar from "./components/Navbar";
+import TopOffersBanner from "./components/TopOffersBanner";
 import GameSection from "./components/GameSection";
 import GameTabs from "./components/GameTabs";
 import GKGamesSection from "./components/GKGamesSection";
@@ -64,7 +65,8 @@ export default function Home() {
       while ((node = walk.nextNode())) {
         if (
           node.parentElement &&
-          ['SCRIPT', 'STYLE', 'NOSCRIPT', 'INPUT', 'TEXTAREA'].includes(node.parentElement.tagName)
+          (['SCRIPT', 'STYLE', 'NOSCRIPT', 'INPUT', 'TEXTAREA'].includes(node.parentElement.tagName) ||
+           node.parentElement.closest('[data-no-fluctuate]'))
         ) continue;
         
         const text = node.nodeValue;
@@ -164,6 +166,9 @@ export default function Home() {
             onToggleMobileMenu={() => setMobileOpen((prev) => !prev)}
           />
           {/* <RegionPopup/> */}
+
+          {/* Top Mega Offers Banner (1. Range Rover, 2. Harley Davidson, 3. Laptop, 4. Phone) */}
+          <TopOffersBanner onClaimOffer={openRegister} />
 
           {/* Game Section */}
           <GameSection

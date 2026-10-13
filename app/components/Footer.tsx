@@ -264,7 +264,7 @@ export default function Footer() {
                     flex h-9 w-9 items-center justify-center rounded-lg
                     bg-[#0f212e] border border-[#213743] text-[14px]
                     transition-all duration-200
-                    hover:scale-105 hover:text-white hover:border-[#1475e1] hover:bg-[#1a2c38]
+                    md:hover:scale-105 hover:text-white hover:border-[#1475e1] hover:bg-[#1a2c38]
                   "
                 >
                   <Icon />

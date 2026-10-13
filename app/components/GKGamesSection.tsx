@@ -383,7 +383,7 @@ export default function GKGamesSection({ onOpenDemoNotice }: GKGamesSectionProps
                     alt={game.title}
                     fill
                     sizes="(max-width: 640px) 270px, (max-width: 768px) 310px, 330px"
-                    className="object-cover object-center transition-transform duration-500 group-hover:scale-108 pointer-events-none select-none"
+                    className="object-cover object-center transition-transform duration-500 md:group-hover:scale-108 pointer-events-none select-none"
                     draggable={false}
                   />
 
@@ -407,7 +407,7 @@ export default function GKGamesSection({ onOpenDemoNotice }: GKGamesSectionProps
 
                   {/* Hover Play Button Overlay */}
                   <div className="absolute inset-0 flex items-center justify-center bg-black/40 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none">
-                    <div className="flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500 text-white shadow-[0_0_24px_rgba(16,185,129,0.7)] transform scale-75 group-hover:scale-100 transition-transform duration-300">
+                    <div className="flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500 text-white shadow-[0_0_24px_rgba(16,185,129,0.7)] transform scale-75 md:group-hover:scale-100 transition-transform duration-300">
                       <FaPlay className="ml-1 text-lg" />
                     </div>
                   </div>

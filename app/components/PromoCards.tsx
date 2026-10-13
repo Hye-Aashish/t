@@ -168,7 +168,7 @@ function GameCard({
             object-cover
             transition-transform
             duration-300
-            group-hover:scale-[1.04]
+            md:group-hover:scale-[1.04]
           "
         />
 

@@ -71,6 +71,17 @@ const sectionsData = [
 
 const heroPromos = [
   {
+    id: 0,
+    tag: "🏆 MEGA BUMPER LUCKY DRAW",
+    title: "Win Range Rover, Harley, Laptop & iPhone",
+    subtitle: "Deposit & wager to win: 1st Range Rover SUV • 2nd Harley-Davidson • 3rd Apple MacBook • 4th iPhone 16 Pro Max!",
+    badge: "₹1.6 Crore+ Prize Pool",
+    cta: "Claim Free Ticket",
+    secondaryCta: "View All 4 Offers",
+    image: "/img/offers/range_rover.jpg",
+    action: "register",
+  },
+  {
     id: 1,
     tag: "WELCOME BONUS",
     title: "200% First Deposit Bonus",
@@ -153,6 +164,26 @@ export default function GameSection({
 
   const currentPromo = heroPromos[activePromoIndex];
 
+  const [heroTouchStart, setHeroTouchStart] = useState<number | null>(null);
+
+  const handleHeroTouchStart = (e: React.TouchEvent) => {
+    setHeroTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleHeroTouchEnd = (e: React.TouchEvent) => {
+    if (heroTouchStart === null) return;
+    const touchEnd = e.changedTouches[0].clientX;
+    const diff = heroTouchStart - touchEnd;
+    if (diff > 45) {
+      // Swiped left -> next slide
+      setActivePromoIndex((prev) => (prev + 1) % heroPromos.length);
+    } else if (diff < -45) {
+      // Swiped right -> prev slide
+      setActivePromoIndex((prev) => (prev - 1 + heroPromos.length) % heroPromos.length);
+    }
+    setHeroTouchStart(null);
+  };
+
   return (
     <div className="w-full bg-[#0f212e] text-white">
       <div className="mx-auto w-full max-w-[1580px] px-3 sm:px-6 xl:px-8 py-4 sm:py-6">
@@ -160,7 +191,11 @@ export default function GameSection({
         {/* ========================================================
             PROFESSIONAL STAKE-STYLE HERO CAROUSEL
         ======================================================== */}
-        <section className="relative w-full overflow-hidden rounded-xl sm:rounded-2xl border border-[#213743] bg-[#071824] shadow-2xl select-none">
+        <section
+          onTouchStart={handleHeroTouchStart}
+          onTouchEnd={handleHeroTouchEnd}
+          className="relative w-full overflow-hidden rounded-xl sm:rounded-2xl border border-[#213743] bg-[#071824] shadow-2xl select-none"
+        >
           {/* Main Slide Display Container */}
           <div className="relative w-full min-h-[220px] sm:min-h-[280px] md:min-h-[340px] flex items-center overflow-hidden">
             {heroPromos.map((promo, idx) => {
@@ -442,7 +477,7 @@ export default function GameSection({
                           src={game.image}
                           alt={game.title}
                           fill
-                          className="object-cover transition-transform duration-300 group-hover:scale-105"
+                          className="object-cover transition-transform duration-300 md:group-hover:scale-105"
                           onError={(e) => {
                             e.currentTarget.style.display = "none";
                             e.currentTarget.parentElement!.classList.add(
@@ -465,7 +500,7 @@ export default function GameSection({
 
                         {/* Stake Hover Overlay with Play Button */}
                         <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center backdrop-blur-[1px]">
-                          <div className="w-10 h-10 rounded-full bg-[#00e701] text-slate-950 flex items-center justify-center shadow-lg transform scale-75 group-hover:scale-100 transition-transform duration-200 pl-0.5">
+                          <div className="w-10 h-10 rounded-full bg-[#00e701] text-slate-950 flex items-center justify-center shadow-lg transform scale-75 md:group-hover:scale-100 transition-transform duration-200 pl-0.5">
                             <FaPlay size={14} />
                           </div>
                         </div>

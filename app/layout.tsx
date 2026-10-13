@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import InitialLoader from "./components/InitialLoader";
@@ -19,6 +19,13 @@ export const metadata: Metadata = {
     "Nonstopbettingandcasino.com is a leading online betting and casino platform, offering a wide range of games and betting options for players worldwide. Enjoy seamless gaming experiences, secure transactions, and 24/7 customer support.",
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -29,7 +36,7 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col overflow-x-hidden">
         <InitialLoader />
 
         {children}
