@@ -192,6 +192,7 @@ export default function GameSection({
             PROFESSIONAL STAKE-STYLE HERO CAROUSEL
         ======================================================== */}
         <section
+          data-no-fluctuate="true"
           onTouchStart={handleHeroTouchStart}
           onTouchEnd={handleHeroTouchEnd}
           className="relative w-full overflow-hidden rounded-xl sm:rounded-2xl border border-[#213743] bg-[#071824] shadow-2xl select-none"

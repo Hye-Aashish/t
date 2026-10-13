@@ -184,7 +184,7 @@ export default function TopOffersBanner({ onClaimOffer }: TopOffersBannerProps) 
   };
 
   return (
-    <section className="w-full bg-gradient-to-b from-[#0b1720] via-[#0f212e] to-[#0f212e] text-white pt-2 sm:pt-4 pb-4">
+    <section data-no-fluctuate="true" className="w-full bg-gradient-to-b from-[#0b1720] via-[#0f212e] to-[#0f212e] text-white pt-2 sm:pt-4 pb-4">
       {/* Top Banner Ticker Strip */}
       <div className="w-full bg-gradient-to-r from-amber-950/60 via-[#1a2c38] to-amber-950/60 border-y border-amber-500/20 py-2 px-3 sm:px-6">
         <div className="max-w-[1580px] mx-auto flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm">
@@ -267,7 +267,7 @@ export default function TopOffersBanner({ onClaimOffer }: TopOffersBannerProps) 
         {/* ========================================================
             MOBILE SLIDER CAROUSEL (Visible on Mobile `< sm`)
         ======================================================== */}
-        <div className="block sm:hidden relative">
+        <div data-no-fluctuate="true" className="block sm:hidden relative">
           <div
             ref={sliderRef}
             onScroll={handleScroll}
@@ -391,7 +391,7 @@ export default function TopOffersBanner({ onClaimOffer }: TopOffersBannerProps) 
         {/* ========================================================
             DESKTOP MULTI-CARD GRID (Visible on `sm:` and above)
         ======================================================== */}
-        <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 xl:gap-5">
+        <div data-no-fluctuate="true" className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 xl:gap-5">
           {offers.map((offer) => {
             const Icon = offer.icon;
             return (
