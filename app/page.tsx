@@ -165,11 +165,6 @@ export default function Home() {
             onOpenRegister={openRegister}
             onToggleMobileMenu={() => setMobileOpen((prev) => !prev)}
           />
-          {/* <RegionPopup/> */}
-
-          {/* Top Mega Offers Banner (1. Range Rover, 2. Harley Davidson, 3. Laptop, 4. Phone) */}
-          <TopOffersBanner onClaimOffer={openRegister} />
-
           {/* Game Section */}
           <GameSection
             onRegisterClick={openRegister}
@@ -184,7 +179,10 @@ export default function Home() {
           {/* Game Tabs */}
           <GameTabs onOpenDemoNotice={handleGameClick} />
 
-          {/* GK Club & Multiplayer Games Section */}
+          {/* Top Mega Offers Banner (1. Range Rover, 2. Harley Davidson, 3. Laptop, 4. Phone) */}
+          <TopOffersBanner onClaimOffer={openRegister} />
+
+          {/* GK Club & Multiplayer Games Section (Popular Club & Arcade Games) */}
           <GKGamesSection onOpenDemoNotice={handleGameClick} />
 
           {/* Footer */}
