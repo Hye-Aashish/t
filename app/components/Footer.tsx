@@ -133,7 +133,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="w-full bg-[#071824] border-t border-[#213743] text-[#b1bad3] transition-colors">
+    <footer data-no-fluctuate="true" className="w-full bg-[#071824] border-t border-[#213743] text-[#b1bad3] transition-colors">
       <div className="mx-auto max-w-[1240px] px-4 sm:px-6 pt-12 pb-8">
 
         {/* Crypto Currency Logos Strip */}
@@ -278,9 +278,9 @@ export default function Footer() {
         <div className="mt-8 h-px w-full bg-[#213743]" />
 
         {/* Copyright & License Description */}
-        <div className="pt-8 text-center space-y-3">
-          <p className="text-[13px] font-semibold text-white">
-            © 2026 Non Stop Betting and Casino | All Rights Reserved.
+        <div data-no-fluctuate="true" className="pt-8 text-center space-y-3">
+          <p data-no-fluctuate="true" className="text-[13px] font-semibold text-white">
+            © 2022 Non Stop Betting and Casino | All Rights Reserved.
           </p>
 
           <p className="mx-auto max-w-[950px] text-[12px] leading-relaxed text-[#557086]">
