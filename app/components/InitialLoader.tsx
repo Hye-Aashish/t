@@ -5,7 +5,6 @@ import { useEffect, useRef, useState } from "react";
 export default function InitialLoader() {
   const [loading, setLoading] = useState(true);
   const [isExiting, setIsExiting] = useState(false);
-  const [hasPlayedSound, setHasPlayedSound] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const hasTriggeredRef = useRef(false);
@@ -88,7 +87,6 @@ export default function InitialLoader() {
   const playGamingSound = () => {
     if (hasTriggeredRef.current) return;
     hasTriggeredRef.current = true;
-    setHasPlayedSound(true);
 
     // Play synthesized electronic gaming chime
     playSynthesizedGamingSound();
@@ -193,15 +191,6 @@ export default function InitialLoader() {
               "radial-gradient(ellipse 96% 92% at 50% 50%, black 82%, transparent 100%)",
           }}
         />
-
-        {/* Dynamic Gaming Audio Status Pill */}
-        <div className="mt-2 flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold tracking-wide backdrop-blur-sm animate-pulse">
-          <span className="text-sm">🎮</span>
-          <span>NON STOP CASINO</span>
-          <span className="text-[11px] text-emerald-300/80">
-            {hasPlayedSound ? "• 🔊 Audio On" : "• Tap for Sound 🔊"}
-          </span>
-        </div>
       </div>
     </div>
   );
