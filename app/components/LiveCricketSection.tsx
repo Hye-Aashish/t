@@ -110,7 +110,7 @@ export default function LiveCricketSection() {
   };
 
   return (
-    <section className="w-full mt-6 mb-3 relative z-20">
+    <section data-no-fluctuate="true" className="w-full mt-6 mb-3 relative z-20">
       {/* ========================================================
           STAKE.COM HEADER WITH LIVE PILLS & TABS
       ======================================================== */}

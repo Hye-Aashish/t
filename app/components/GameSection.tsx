@@ -142,6 +142,8 @@ export default function GameSection({
   const [internalSearchOpen, setInternalSearchOpen] = useState(false);
   const [activePromoIndex, setActivePromoIndex] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [casinoPlaying, setCasinoPlaying] = useState(35997);
+  const [sportsPlaying, setSportsPlaying] = useState(18557);
 
   const searchOpen = propSearchOpen !== undefined ? propSearchOpen : internalSearchOpen;
   const setSearchOpen = propSetSearchOpen !== undefined ? propSetSearchOpen : setInternalSearchOpen;
@@ -153,6 +155,12 @@ export default function GameSection({
       triggerDemoNotice();
     }
   };
+
+  // Random live player counts on each page load
+  useEffect(() => {
+    setCasinoPlaying(Math.floor(32000 + Math.random() * 12000)); // ~32k–44k
+    setSportsPlaying(Math.floor(15000 + Math.random() * 10000)); // ~15k–25k
+  }, []);
 
   // Auto slide promo carousel every 5 seconds
   useEffect(() => {
@@ -351,7 +359,7 @@ export default function GameSection({
             </span>
             <div className="flex items-center gap-2 text-xs sm:text-sm font-mono font-bold text-white">
               <span className="h-2 w-2 rounded-full bg-[#00e701] animate-ping" />
-              <span>35,997</span>
+              <span>{casinoPlaying.toLocaleString("en-US")}</span>
               <span className="hidden sm:inline text-[#b1bad3] font-normal text-xs font-sans">playing</span>
             </div>
           </div>
@@ -362,7 +370,7 @@ export default function GameSection({
             </span>
             <div className="flex items-center gap-2 text-xs sm:text-sm font-mono font-bold text-white">
               <span className="h-2 w-2 rounded-full bg-[#00e701] animate-ping" />
-              <span>18,557</span>
+              <span>{sportsPlaying.toLocaleString("en-US")}</span>
               <span className="hidden sm:inline text-[#b1bad3] font-normal text-xs font-sans">playing</span>
             </div>
           </div>

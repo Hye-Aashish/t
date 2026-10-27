@@ -7,7 +7,6 @@ import {
   FaChevronLeft,
   FaChevronRight,
   FaUsers,
-  FaPause,
   FaArrowRight,
 } from "react-icons/fa";
 import { triggerDemoNotice } from "./DemoNoticeModal";
@@ -133,7 +132,6 @@ export default function GKGamesSection({ onOpenDemoNotice }: GKGamesSectionProps
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
-  const [autoPlay, setAutoPlay] = useState(true);
 
   // Mouse Drag state
   const isDraggingRef = useRef(false);
@@ -225,9 +223,9 @@ export default function GKGamesSection({ onOpenDemoNotice }: GKGamesSectionProps
     return () => container.removeEventListener("scroll", updateScrollButtons);
   }, [updateScrollButtons]);
 
-  // Smooth periodic auto-scroll every 3 seconds (when not hovered, not dragging, and autoPlay is on)
+  // Smooth periodic auto-scroll every 3 seconds (when not hovered / dragging)
   useEffect(() => {
-    if (!autoPlay || isHovered) return;
+    if (isHovered) return;
 
     const interval = setInterval(() => {
       const container = scrollContainerRef.current;
@@ -242,7 +240,7 @@ export default function GKGamesSection({ onOpenDemoNotice }: GKGamesSectionProps
     }, 3200);
 
     return () => clearInterval(interval);
-  }, [autoPlay, isHovered]);
+  }, [isHovered]);
 
   return (
     <section className="relative w-full bg-[#0b1720]/95 py-10 px-3 sm:px-6 lg:px-8 border-t border-[#1c3241] overflow-hidden select-none">
@@ -276,31 +274,8 @@ export default function GKGamesSection({ onOpenDemoNotice }: GKGamesSectionProps
             </p>
           </div>
 
-          {/* Carousel Navigation Buttons & Auto-scroll Toggle */}
+          {/* Carousel Navigation Buttons */}
           <div className="flex items-center gap-2 self-end sm:self-auto">
-            <button
-              type="button"
-              onClick={() => setAutoPlay((prev) => !prev)}
-              className={`h-9 px-3 rounded-xl border text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
-                autoPlay
-                  ? "bg-emerald-500/15 border-emerald-500/40 text-emerald-400 hover:bg-emerald-500/25"
-                  : "bg-[#1a2c38] border-[#213743] text-[#8ba3b5] hover:text-white"
-              }`}
-              title={autoPlay ? "Pause Auto-scroll" : "Resume Auto-scroll"}
-            >
-              {autoPlay ? (
-                <>
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  <span>Auto-Scroll: ON</span>
-                </>
-              ) : (
-                <>
-                  <FaPause size={10} />
-                  <span>Paused</span>
-                </>
-              )}
-            </button>
-
             <button
               type="button"
               onClick={() => scroll("left")}
@@ -452,26 +427,6 @@ export default function GKGamesSection({ onOpenDemoNotice }: GKGamesSectionProps
           </div>
         </div>
 
-        {/* Bottom Helper Bar */}
-        <div className="mt-6 flex flex-wrap items-center justify-between gap-3 rounded-xl bg-[#14242f] border border-[#213743] px-4 py-3 text-xs text-[#8ba3b5]">
-          <div className="flex items-center gap-2">
-            <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-emerald-500/20 text-emerald-400 font-bold">
-              ✓
-            </span>
-            <span>Drag mouse, swipe with finger, or click arrows to scroll games side by side.</span>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <span className="text-[#557086] hidden md:inline">Click any game to open:</span>
-            <button
-              type="button"
-              onClick={handleGameClick}
-              className="text-amber-400 hover:text-amber-300 font-bold underline cursor-pointer"
-            >
-              Demo Account Notice
-            </button>
-          </div>
-        </div>
       </div>
     </section>
   );
